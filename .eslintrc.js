@@ -25,5 +25,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-console': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'react/require-default-props': 'off',
   },
 };

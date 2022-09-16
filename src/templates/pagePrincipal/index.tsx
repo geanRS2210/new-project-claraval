@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { Container } from './styles';
+import { Container } from '../../components/Container/Container';
+import { Footer } from '../../components/Footer/Footer';
+import { Header } from '../../components/Header/Header';
 
-export default function Home(): JSX.Element {
+interface Children {
+  children?: ReactNode;
+}
+
+export default function Home({ children }: Children): JSX.Element {
   return (
-    <Container>
-      <h1>Olá mundo!!</h1>
+    <Container className="principal">
+      <Header />
+      <Container className="secondary">{children}</Container>
+      <Footer />
     </Container>
   );
 }

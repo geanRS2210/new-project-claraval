@@ -1,24 +1,30 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-* {
-  margin: 0px;
-  padding: 0px;
-  font-size: 16px;
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
 }
-body {
-  min-height: 100%;
+#root{
+min-height: 100%;
+position: relative;
 }
-
-.principal {
-  min-height: 380px;
-  max-height: 600px;
-  box-sizing: border-box;
+div.principal{
+  /** Altura do rodapé tem que ser igual a isso aqui e vice-versa **/
+padding-bottom: 100px;
+height: 100%;
 }
-.secondary {
-  background-color: gray;
-  min-height: 80%;
-  max-height: 100%;
-  box-sizing: border-box;
+footer{
+background: blue;
+width: 100%;
+height: 30px;
+position: absolute;
+bottom: 0;
+left: 0;
+}
+.toastify {
+  width: 300px;
+  height: 40px;
 }
 `;

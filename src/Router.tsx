@@ -9,8 +9,9 @@ export function RoutesApp(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<App />}>
+          <Route path="login" element={<Login />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

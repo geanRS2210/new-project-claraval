@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { GlobalStyles } from './Styles/GlobalStyles';
+import { ToastContainer } from 'react-toastify';
 import { RoutesApp } from './Router';
-import Home from './templates/pagePrincipal';
+import { GlobalStyles } from './Styles/GlobalStyles';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -10,6 +10,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <GlobalStyles />
+    <ToastContainer
+      position="top-left"
+      className="toastify"
+      icon={false}
+      autoClose={3000}
+    />
     <RoutesApp />
   </React.StrictMode>,
 );

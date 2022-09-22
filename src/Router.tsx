@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import { Header } from './components/Header/Header';
 import Login from './templates/PageLogin';
 
 import App from './templates/pagePrincipal';
+import { Schedule } from './templates/Schedule/Schedule';
 
 export function RoutesApp(): JSX.Element {
   return (
@@ -11,6 +11,7 @@ export function RoutesApp(): JSX.Element {
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="login" element={<Login />} />
+          <Route path="agenda" element={<Schedule />} />
         </Route>
       </Routes>
     </BrowserRouter>

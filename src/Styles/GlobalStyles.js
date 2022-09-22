@@ -1,11 +1,30 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const GlobalStyles = createGlobalStyle`
+:root {
+  --toastify-color-error: #e74c3c;
+}
 html, body {
 margin: 0;
 padding: 0;
 height: 100%;
 }
+body .Toastify .Toastify__toast-container .Toastify__toast--error {
+  background-color: red;
+  color: white;
+}
+.Toastify__progress-bar--error {
+  background-color: white;
+}
+.Toastify__toast--success {
+  background-color: green;
+  color: white;
+}
+.Toastify__progress-bar--success {
+  background-color: white;
+}
+
 #root{
 min-height: 100%;
 position: relative;

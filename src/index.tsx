@@ -11,8 +11,8 @@ root.render(
   <React.StrictMode>
     <GlobalStyles />
     <ToastContainer
-      position="top-left"
-      className="toastify"
+      position="top-right"
+      className="toast-container"
       icon={false}
       autoClose={3000}
     />

@@ -1,16 +1,13 @@
-import { string } from 'prop-types';
-import React, { useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Inputs/Input';
-import { Message } from '../../components/Message/Message';
 
 export default function Login(): JSX.Element {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState(['']);
 
   const handleChangePassword = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -24,11 +21,11 @@ export default function Login(): JSX.Element {
     setUser(valueInput);
   };
 
-  const testData = async () => {
+  const testData = () => {
     let test = false;
+    console.log(user);
     if (user.length === 0 || user.length > 50) {
       test = true;
-      console.log('cheguei no erro');
       toast.error('Usuario inválido');
     }
     if (password.length === 0 || password.length < 8) {
@@ -38,14 +35,19 @@ export default function Login(): JSX.Element {
     return test;
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!testData()) {
-      const data = {
-        user,
-        password,
-      };
-      console.log(data);
+    try {
+      if (!testData()) {
+        const data = {
+          user,
+          password,
+        };
+        await console.log(data, 'Aqui vem o envio dos nossos dados');
+        toast.success('Login efetuado...');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

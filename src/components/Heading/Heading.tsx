@@ -3,8 +3,9 @@ import { HeadingStyled } from './styles';
 
 interface Children {
   children: string;
+  className?: string;
 }
 
-export function Heading({ children }: Children): JSX.Element {
-  return <HeadingStyled>{children}</HeadingStyled>;
+export function Heading({ children, className }: Children): JSX.Element {
+  return <HeadingStyled className={className}>{children}</HeadingStyled>;
 }

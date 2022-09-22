@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FaUserCheck, FaTrashAlt, FaEdit } from 'react-icons/fa';
+import React, { useEffect, useState, useRef } from 'react';
+import { FaUserCheck, FaTrashAlt, FaEdit, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Wrapper } from './styles';
 import { Heading } from '../../components/Heading/Heading';
@@ -8,7 +8,7 @@ export function Schedule(): JSX.Element {
   const [data, setData] = useState([
     { id: 0, name: '', birthDate: '', nameMom: '', cpf: '' },
   ]);
-
+  const [select, setSelect] = useState('awaiting');
   useEffect(() => {
     const database = [
       {
@@ -54,8 +54,26 @@ export function Schedule(): JSX.Element {
   const handleClickDelete = (e: number) => {
     console.log(e, 'removido com sucesso');
   };
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const event = e.target.value;
+    setSelect(event);
+  };
+
   return (
     <Wrapper>
+      <section>
+        <FaPlus />
+        <select
+          className="type-schedule"
+          value={select}
+          onChange={handleChange}
+        >
+          <option value="awaiting">Aguardando agendamento</option>
+          <option value="take">Para retirar guias</option>
+          <option value="overdue">Guias não retiradas</option>
+          <option value="finished">Agendamento finalizado</option>
+        </select>
+      </section>
       <Heading>Pacientes aguardando agendamento</Heading>
       {data.map((d) => (
         <ul key={d.id}>

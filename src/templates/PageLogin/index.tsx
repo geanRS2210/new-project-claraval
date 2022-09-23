@@ -53,7 +53,7 @@ export default function Login(): JSX.Element {
 
   return (
     <Form>
-      <Heading>Olá mundo!!</Heading>
+      <Heading>Login/Entrar</Heading>
       <Input
         value={user}
         type="text"

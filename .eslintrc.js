@@ -26,5 +26,7 @@ module.exports = {
     'no-console': 'off',
     'import/no-extraneous-dependencies': 'off',
     'react/require-default-props': 'off',
+    'no-nested-ternary': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
 };

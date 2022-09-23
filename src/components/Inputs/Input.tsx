@@ -6,10 +6,11 @@ interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeHolder?: string;
   value: string | number;
+  className?: string;
 }
 
 export function Input(props: Props): JSX.Element {
-  const { type, onChange, placeHolder, value } = props;
+  const { type, onChange, placeHolder, value, className } = props;
 
   return (
     <InputStyled
@@ -21,6 +22,7 @@ export function Input(props: Props): JSX.Element {
         }
       }}
       placeholder={placeHolder}
+      className={className}
     />
   );
 }

@@ -1,12 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { FaUserCheck, FaTrashAlt, FaEdit, FaPlus } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import {
+  FaUserCheck,
+  FaTrashAlt,
+  FaEdit,
+  FaInfo,
+  FaPrint,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Wrapper } from './styles';
-import { Heading } from '../../components/Heading/Heading';
+import { List } from '../../components/List/List';
 
 export function Schedule(): JSX.Element {
   const [data, setData] = useState([
-    { id: 0, name: '', birthDate: '', nameMom: '', cpf: '' },
+    { id: 0, name: '', birthDate: '', nameMom: '', cpf: '', state: '' },
   ]);
   const [select, setSelect] = useState('awaiting');
   useEffect(() => {
@@ -17,6 +23,7 @@ export function Schedule(): JSX.Element {
         birthDate: '22/10/1999',
         nameMom: 'Maria',
         cpf: '143.0954.026-82',
+        state: 'awaiting',
       },
       {
         id: 2,
@@ -24,6 +31,7 @@ export function Schedule(): JSX.Element {
         birthDate: '22/10/1999',
         nameMom: 'marta',
         cpf: '143.0954.026-82',
+        state: 'awaiting',
       },
       {
         id: 3,
@@ -31,6 +39,7 @@ export function Schedule(): JSX.Element {
         birthDate: '22/10/1999',
         nameMom: 'fernanda',
         cpf: '143.0954.026-82',
+        state: 'take',
       },
       {
         id: 4,
@@ -38,6 +47,7 @@ export function Schedule(): JSX.Element {
         birthDate: '22/10/1999',
         nameMom: 'juliana',
         cpf: '143.0954.026-82',
+        state: 'awaiting',
       },
       {
         id: 5,
@@ -45,9 +55,17 @@ export function Schedule(): JSX.Element {
         birthDate: '22/10/1999',
         nameMom: 'marcela',
         cpf: '143.0954.026-82',
+        state: 'overdue',
+      },
+      {
+        id: 6,
+        name: 'joana miranda',
+        birthDate: '22/10/1999',
+        nameMom: 'carla',
+        cpf: '143.0954.026-82',
+        state: 'finished',
       },
     ];
-
     setData(database);
   }, []);
 
@@ -62,7 +80,6 @@ export function Schedule(): JSX.Element {
   return (
     <Wrapper>
       <section>
-        <FaPlus />
         <select
           className="type-schedule"
           value={select}
@@ -74,26 +91,44 @@ export function Schedule(): JSX.Element {
           <option value="finished">Agendamento finalizado</option>
         </select>
       </section>
-      <Heading>Pacientes aguardando agendamento</Heading>
-      {data.map((d) => (
-        <ul key={d.id}>
-          <li>{d.name}</li>
-          <li>{d.birthDate}</li>
-          <li>{d.cpf}</li>
-          <li>{d.nameMom}</li>
-          <li>
-            <Link to={`/agenda/:${d.id}`}>
-              <FaEdit />
-            </Link>
-          </li>
-          <li>
-            <FaTrashAlt onClick={() => handleClickDelete(d.id)} />
-          </li>
-          <li>
-            <FaUserCheck />
-          </li>
-        </ul>
-      ))}
+      {data.map((d) => {
+        if (d.state === select) {
+          return (
+            <List key={d.id}>
+              <li>{d.name}</li>
+              <li>{d.birthDate}</li>
+              <li>{d.cpf}</li>
+              <li>{d.nameMom}</li>
+              <li>
+                {d.state === 'awaiting' ? (
+                  <Link to={`/agendar/:${d.id}`}>
+                    <FaEdit />
+                  </Link>
+                ) : (
+                  <Link to={`/agendar/:${d.id}`}>
+                    <FaInfo />
+                  </Link>
+                )}
+              </li>
+              <li>
+                {d.state === 'awaiting' ? (
+                  <Link to={`/agendar/:${d.id}`}>
+                    <FaUserCheck />
+                  </Link>
+                ) : d.state === 'take' ? (
+                  <FaPrint />
+                ) : null}
+              </li>
+              <li>
+                {d.state === 'awaiting' ? (
+                  <FaTrashAlt onClick={() => handleClickDelete(d.id)} />
+                ) : null}
+              </li>
+            </List>
+          );
+        }
+        return null;
+      })}
     </Wrapper>
   );
 }

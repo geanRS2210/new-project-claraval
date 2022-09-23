@@ -5,16 +5,29 @@ export const HeaderStyled = styled.header`
   text-align: center;
   padding: 8px;
   & > a {
-    margin: 5px 15px 5px 15px;
-    color: white;
+    margin: 0px 15px 0px 15px;
     display: inline-block;
-    height: 25px;
+    height: 35px;
     width: 125px;
-
-    &:hover {
-      transition-duration: 0.3s;
-      background-color: grey;
+    text-decoration: none;
+    & > button {
+      height: 30px;
+      width: 120px;
+      border: none;
+      border-radius: 10px;
+    }
+    & > button:hover {
+      transition-duration: 0.4s;
+      color: white;
+      background-color: #23e61b;
       border-radius: 15px;
     }
+  }
+  .add {
+    background-color: #18a713;
+    width: 35px;
+  }
+  .add-link {
+    width: 60px;
   }
 `;

@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
     padding: 5px;
     margin: 10px;
   }
-
   .type-schedule {
     height: 30px;
     width: 200px;

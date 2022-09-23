@@ -32,7 +32,7 @@ position: relative;
 div.principal{
   /** Altura do rodapé tem que ser igual a isso aqui e vice-versa **/
 padding-bottom: 100px;
-height: 100%;
+height: 483px;
 }
 footer{
 background: blue;

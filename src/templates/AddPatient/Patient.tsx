@@ -19,6 +19,7 @@ export function Patient(): JSX.Element {
   const [appointmeintDate, setappointmeintDate] = useState('');
   const [value, setvalue] = useState('');
   const [check, setCheck] = useState(false);
+  const [setFormat] = useFormat();
 
   const checkErr = (): boolean => {
     let errors = false;
@@ -90,7 +91,7 @@ export function Patient(): JSX.Element {
           className="date"
           placeHolder="DD/MM/AAAA"
           onChange={(e) => {
-            setDateBirth(useFormat('date', e));
+            setDateBirth(setFormat('date', e));
           }}
         />
         <Input
@@ -98,7 +99,7 @@ export function Patient(): JSX.Element {
           value={telephone}
           className="telephone"
           placeHolder="(00) 0 0000-0000"
-          onChange={(e) => settelephone(e.target.value)}
+          onChange={(e) => settelephone(setFormat('telephone', e))}
         />
         <Input
           type="text"
@@ -122,7 +123,7 @@ export function Patient(): JSX.Element {
           type="text"
           value={cpf}
           placeHolder="Digite o CPF..."
-          onChange={(e) => setCpf(useFormat('cpf', e))}
+          onChange={(e) => setCpf(setFormat('cpf', e))}
         />
         <Input
           type="text"
@@ -137,8 +138,7 @@ export function Patient(): JSX.Element {
             placeHolder="Data do agendamento"
             className="date"
             onChange={(e) => {
-              console.log(useFormat('date', e));
-              // setappointmeintDate();
+              setappointmeintDate(setFormat('date', e));
             }}
           />
           <Input

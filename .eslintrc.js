@@ -28,5 +28,6 @@ module.exports = {
     'react/require-default-props': 'off',
     'no-nested-ternary': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    'no-param-reassign': 'off',
   },
 };

@@ -27,18 +27,16 @@ export const Wrapper = styled.div`
     }
   }
   & .date {
-    width: 150px;
+    width: 140px;
     display: inline-block;
     margin: 5px 20px;
   }
   & .telephone {
-    width: 200px;
+    width: 170px;
     display: inline-block;
     margin: 5px 20px;
   }
   & .name {
     width: 400px;
-    display: inline-block;
-    margin-right: 20px;
   }
 `;

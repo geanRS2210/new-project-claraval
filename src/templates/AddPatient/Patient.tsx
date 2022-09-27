@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useFormat } from '../../hooks/useFormat';
 import { Button } from '../../components/Button/Button';
@@ -6,6 +7,7 @@ import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
+import { database } from '../../example/database';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');
@@ -19,7 +21,32 @@ export function Patient(): JSX.Element {
   const [appointmeintDate, setappointmeintDate] = useState('');
   const [value, setvalue] = useState('');
   const [check, setCheck] = useState(false);
+  const [checkInfo, setCheckInfo] = useState(false);
   const [setFormat] = useFormat();
+  const { id, param } = useParams();
+
+  useEffect(() => {
+    if (id && param) {
+      const userID = Number(id.slice(1));
+      const parameter = param.slice(1);
+      console.log(userID, parameter);
+      if (parameter === 'finish') setCheck(true);
+      if (parameter === 'info') setCheckInfo(true);
+      database.map((d) => {
+        if (d.id === userID) {
+          setName(d.name);
+          setDateBirth(d.birthDate);
+          setNameMom(d.nameMom);
+          setCpf(d.cpf);
+          settelephone(d.telephone);
+          setAddress(d.address);
+          setDoctor(d.doctor);
+          setRg(d.rg);
+        }
+        return null;
+      });
+    }
+  }, []);
 
   const checkErr = (): boolean => {
     let errors = false;
@@ -84,6 +111,7 @@ export function Patient(): JSX.Element {
           className="name"
           placeHolder="Digite o nome do paciente..."
           onChange={(e) => setName(e.target.value)}
+          disabled={checkInfo}
         />
         <Input
           type="text"
@@ -93,6 +121,7 @@ export function Patient(): JSX.Element {
           onChange={(e) => {
             setDateBirth(setFormat('date', e));
           }}
+          disabled={checkInfo}
         />
         <Input
           type="text"
@@ -100,36 +129,42 @@ export function Patient(): JSX.Element {
           className="telephone"
           placeHolder="(00) 0 0000-0000"
           onChange={(e) => settelephone(setFormat('telephone', e))}
+          disabled={checkInfo}
         />
         <Input
           type="text"
           value={nameMom}
           placeHolder="Digite o Nome da mãe..."
           onChange={(e) => setNameMom(e.target.value)}
+          disabled={checkInfo}
         />
         <Input
           type="text"
           value={address}
           placeHolder="Digite o endereço..."
           onChange={(e) => setAddress(e.target.value)}
+          disabled={checkInfo}
         />
         <Input
           type="text"
           value={rg}
           placeHolder="Digite o RG"
           onChange={(e) => setRg(e.target.value)}
+          disabled={checkInfo}
         />
         <Input
           type="text"
           value={cpf}
           placeHolder="Digite o CPF..."
           onChange={(e) => setCpf(setFormat('cpf', e))}
+          disabled={checkInfo}
         />
         <Input
           type="text"
           value={doctor}
           placeHolder="Especifique o Médico ..."
           onChange={(e) => setDoctor(e.target.value)}
+          disabled={checkInfo}
         />
         <Check check={check}>
           <Input
@@ -140,6 +175,7 @@ export function Patient(): JSX.Element {
             onChange={(e) => {
               setappointmeintDate(setFormat('date', e));
             }}
+            disabled={checkInfo}
           />
           <Input
             type="text"
@@ -147,6 +183,7 @@ export function Patient(): JSX.Element {
             className="date"
             placeHolder="Valor da consulta"
             onChange={(e) => setvalue(e.target.value)}
+            disabled={checkInfo}
           />
         </Check>
         <a href="/agendar">

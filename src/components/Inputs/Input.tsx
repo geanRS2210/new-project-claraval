@@ -7,10 +7,11 @@ interface Props {
   placeHolder?: string;
   value: string | number;
   className?: string;
+  disabled?: boolean;
 }
 
 export function Input(props: Props): JSX.Element {
-  const { type, onChange, placeHolder, value, className } = props;
+  const { type, onChange, placeHolder, value, className, disabled } = props;
 
   return (
     <InputStyled
@@ -23,6 +24,7 @@ export function Input(props: Props): JSX.Element {
       }}
       placeholder={placeHolder}
       className={className}
+      disabled={disabled}
     />
   );
 }

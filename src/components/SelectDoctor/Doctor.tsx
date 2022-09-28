@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { DoctorStyled } from './styles';
 import { database } from '../../example/specialtyData';

@@ -7,6 +7,7 @@ import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
+import { Doctor } from '../../components/SelectDoctor/Doctor';
 import { database } from '../../example/database';
 
 export function Patient(): JSX.Element {
@@ -159,12 +160,11 @@ export function Patient(): JSX.Element {
           onChange={(e) => setCpf(setFormat('cpf', e))}
           disabled={checkInfo}
         />
-        <Input
-          type="text"
+        <Doctor
           value={doctor}
-          placeHolder="Especifique o Médico ..."
           onChange={(e) => setDoctor(e.target.value)}
           disabled={checkInfo}
+          classname="doctor"
         />
         <Check check={check}>
           <Input

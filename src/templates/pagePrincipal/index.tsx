@@ -1,6 +1,5 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
 import { Container } from '../../components/Container/Container';
 import { Footer } from '../../components/Footer/Footer';

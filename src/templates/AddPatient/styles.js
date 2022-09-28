@@ -39,4 +39,14 @@ export const Wrapper = styled.div`
   & .name {
     width: 400px;
   }
+  & .doctor {
+    width: 440px;
+    height: 46px;
+    border-radius: 15px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: white;
+    background-color: grey;
+    padding-left: 15px;
+  }
 `;

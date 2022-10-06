@@ -5,11 +5,7 @@ import { Form } from '../../components/Form/Form';
 import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Inputs/Input';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import {
-  selectValue,
-  loginRequired,
-  loginSuccess,
-} from '../../store/authReducer';
+import { selectValue, loginRequired } from '../../store/authReducer';
 
 export default function Login(): JSX.Element {
   const [user, setUser] = useState('');

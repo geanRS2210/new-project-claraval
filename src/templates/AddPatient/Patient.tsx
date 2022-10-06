@@ -46,8 +46,18 @@ export function Patient(): JSX.Element {
         }
         return null;
       });
+    } else {
+      setName('');
+      setDateBirth('');
+      setNameMom('');
+      setCpf('');
+      settelephone('');
+      setAddress('');
+      setDoctor('');
+      setRg('');
+      setCheck(false);
     }
-  }, []);
+  }, [id, param]);
 
   const checkErr = (): boolean => {
     let errors = false;

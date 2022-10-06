@@ -38,9 +38,14 @@ export function Doctor(props: Props): JSX.Element {
       onChange={onChange}
       className={classname}
     >
+      <option value=""> </option>
       {data.map((d) => {
         console.log(d.name);
-        return <option value={d.name}>{d.name}</option>;
+        return (
+          <option value={d.name} key={d.id}>
+            {d.name}
+          </option>
+        );
       })}
     </DoctorStyled>
   );

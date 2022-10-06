@@ -4,10 +4,18 @@ import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Inputs/Input';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import {
+  selectValue,
+  loginRequired,
+  loginSuccess,
+} from '../../store/authReducer';
 
 export default function Login(): JSX.Element {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const { loading } = useAppSelector(selectValue);
+  const dispatch = useAppDispatch();
 
   const handleChangePassword = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -23,7 +31,6 @@ export default function Login(): JSX.Element {
 
   const testData = () => {
     let test = false;
-    console.log(user);
     if (user.length === 0 || user.length > 50) {
       test = true;
       toast.error('Usuario inválido');
@@ -35,7 +42,7 @@ export default function Login(): JSX.Element {
     return test;
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       if (!testData()) {
@@ -43,8 +50,7 @@ export default function Login(): JSX.Element {
           user,
           password,
         };
-        await console.log(data, 'Aqui vem o envio dos nossos dados');
-        toast.success('Login efetuado...');
+        dispatch(loginRequired(data));
       }
     } catch (error) {
       console.log(error);
@@ -54,6 +60,8 @@ export default function Login(): JSX.Element {
   return (
     <Form>
       <Heading>Login/Entrar</Heading>
+      <Heading>{loading ? 'Carregando...' : ''}</Heading>
+
       <Input
         value={user}
         type="text"

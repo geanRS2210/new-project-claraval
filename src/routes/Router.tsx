@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
-import { MyRouter } from './myRoutes';
 import Login from '../templates/PageLogin';
 import App from '../templates/pagePrincipal';
 import { Schedule } from '../templates/Schedule/Schedule';
@@ -12,7 +11,7 @@ export function RoutesApp(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <MyRouter path="login" element={<Login />} />
+          <Route path="login" element={<Login />} />
           <Route path="agenda" element={<Schedule />} />
           <Route path="agendar/" element={<Patient />}>
             <Route path=":param/:id" element={<Patient />} />

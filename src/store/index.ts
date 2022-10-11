@@ -1,7 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import auth from './authReducer';
+import auth from '../templates/PageLogin/authReducer';
+import patient from '../templates/AddPatient/patientReducer';
 
-const rootReducer = combineReducers({ auth });
+const rootReducer = combineReducers({ auth, patient });
 
 export const store = configureStore({
   reducer: rootReducer,

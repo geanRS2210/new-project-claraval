@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import { Wrapper } from './styles';
 import { List } from '../../components/List/List';
 import { database } from '../../example/database';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { patientRemove } from '../AddPatient/patientReducer';
 
 export function Schedule(): JSX.Element {
   const [data, setData] = useState([
@@ -24,12 +26,13 @@ export function Schedule(): JSX.Element {
     },
   ]);
   const [select, setSelect] = useState('awaiting');
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setData(database);
   }, []);
 
   const handleClickDelete = (e: number) => {
-    console.log(e, 'removido com sucesso');
+    dispatch(patientRemove(e));
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;

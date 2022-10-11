@@ -40,7 +40,6 @@ export function Doctor(props: Props): JSX.Element {
     >
       <option value=""> </option>
       {data.map((d) => {
-        console.log(d.name);
         return (
           <option value={d.name} key={d.id}>
             {d.name}

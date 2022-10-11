@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../hooks/reduxHooks';
 import { useFormat } from '../../hooks/useFormat';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
@@ -9,6 +10,7 @@ import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
 import { database } from '../../example/database';
+import { patientSchedule, patientEdit } from './patientReducer';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');
@@ -25,12 +27,12 @@ export function Patient(): JSX.Element {
   const [checkInfo, setCheckInfo] = useState(false);
   const [setFormat] = useFormat();
   const { id, param } = useParams();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (id && param) {
       const userID = Number(id.slice(1));
       const parameter = param.slice(1);
-      console.log(userID, parameter);
       if (parameter === 'finish') setCheck(true);
       if (parameter === 'info') setCheckInfo(true);
       database.map((d) => {
@@ -100,16 +102,21 @@ export function Patient(): JSX.Element {
     return errors;
   };
 
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    payload: string,
+  ) => {
     e.preventDefault();
     const errors = checkErr();
     if (!errors) {
-      try {
-        await console.log('aqui vai o envio dos dados');
-        toast.success('Agendamento salvo com sucesso');
-      } catch (err) {
-        console.log(err);
-      }
+      dispatch(patientSchedule(payload));
+    }
+  };
+  const handleEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const errors = checkErr();
+    if (!errors) {
+      dispatch(patientEdit());
     }
   };
 
@@ -201,7 +208,14 @@ export function Patient(): JSX.Element {
         </a>
         {!check ? (
           <>
-            <Button type="submit" onClick={(e) => handleClick(e)}>
+            <Button
+              type="submit"
+              onClick={
+                param?.slice(1) === 'edit'
+                  ? (e) => handleEdit(e)
+                  : (e) => handleClick(e, 'awaiting')
+              }
+            >
               Salvar
             </Button>
             <Button type="submit" onClick={() => setCheck(true)}>
@@ -209,7 +223,7 @@ export function Patient(): JSX.Element {
             </Button>
           </>
         ) : (
-          <Button type="submit" onClick={(e) => handleClick(e)}>
+          <Button type="submit" onClick={(e) => handleClick(e, 'take')}>
             Agendar
           </Button>
         )}

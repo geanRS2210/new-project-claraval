@@ -11,7 +11,8 @@ import { Wrapper } from './styles';
 import { List } from '../../components/List/List';
 import { database } from '../../example/database';
 import { useAppDispatch } from '../../hooks/reduxHooks';
-import { patientRemove } from '../AddPatient/patientReducer';
+import { patientRemove } from './patientSlice';
+import jspdf from '../../config/jspdf';
 
 export function Schedule(): JSX.Element {
   const [data, setData] = useState([
@@ -28,6 +29,8 @@ export function Schedule(): JSX.Element {
   const [select, setSelect] = useState('awaiting');
   const dispatch = useAppDispatch();
   useEffect(() => {
+    // const response = axios.get('/patient')
+    // setData(response.data)
     setData(database);
   }, []);
 
@@ -77,7 +80,7 @@ export function Schedule(): JSX.Element {
                     <FaUserCheck />
                   </Link>
                 ) : d.state === 'take' ? (
-                  <FaPrint />
+                  <FaPrint onClick={() => jspdf(d)} />
                 ) : null}
               </li>
               <li>

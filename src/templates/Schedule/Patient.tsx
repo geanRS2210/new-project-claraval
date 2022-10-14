@@ -10,7 +10,7 @@ import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
 import { database } from '../../example/database';
-import { patientSchedule, patientEdit } from './patientReducer';
+import { patientSchedule, patientEdit } from './patientSlice';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');

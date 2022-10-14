@@ -5,9 +5,17 @@ interface Props {
   type: 'button' | 'submit' | 'reset' | undefined;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: string;
+  className?: string;
+  disabled?: boolean;
 }
 
-export function Button({ children, type, onClick }: Props): JSX.Element {
+export function Button({
+  children,
+  type,
+  onClick,
+  className,
+  disabled,
+}: Props): JSX.Element {
   return (
     <ButtonStyled
       type={type}
@@ -16,6 +24,8 @@ export function Button({ children, type, onClick }: Props): JSX.Element {
           onClick(e);
         }
       }}
+      className={className}
+      disabled={disabled}
     >
       {children}
     </ButtonStyled>

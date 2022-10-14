@@ -24,6 +24,9 @@ const authReducer = createSlice({
     loginRequired: (state: InitialState, payload: AppUser) => {
       try {
         state.loading = !state.loading;
+        // const response = await axios.post('/login', {user: payload.user, password: payload.password})
+        // toast.success('Usuário logado com sucesso');
+        // axios.defaults.headers.authorization = `Bearer ${token}`;
         const data = database;
         let test = false;
         data.map((d) => {
@@ -32,7 +35,9 @@ const authReducer = createSlice({
           }
           return test;
         });
-        if (test) toast.success('Usuário logado com sucesso');
+        if (test) {
+          toast.success('Usuário logado com sucesso');
+        }
         if (!test) toast.error('Usuário ou senha incorreta');
         state.loading = !state.loading;
       } catch (e) {

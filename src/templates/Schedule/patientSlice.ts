@@ -6,7 +6,6 @@ interface State {
   token: string;
   loading: boolean;
 }
-
 type Payload = PayloadAction<string | number>;
 
 const initialState: State = {
@@ -19,15 +18,31 @@ const patientSlice = createSlice({
   reducers: {
     patientSchedule: (state, payload: Payload) => {
       state.loading = true;
-      toast.success('deu certo');
-      console.log(state, payload);
+      try {
+        console.log(state, payload);
+        // const response = await axios.get('/patient', {payload})
+        toast.success('deu certo');
+      } catch (e) {
+        toast.error('erro ao agendar paciente');
+        console.log(e);
+      }
       state.loading = false;
     },
     patientRemove: (state, payload: Payload) => {
-      console.log('Agendamento cancelado com sucesso', state, payload);
+      try {
+        // const response = await axios.put('/patient/${id}', {status: 'overdue'})
+        console.log('Agendamento cancelado com sucesso', state, payload);
+      } catch (e) {
+        toast.error('Erro ao excluir paciente');
+      }
     },
     patientEdit: (state) => {
-      console.log('Agendamento editado com sucesso', state);
+      try {
+        // const response = await axios.put('/patient/${id}', {edições})
+        console.log('Agendamento editado com sucesso', state);
+      } catch (e) {
+        toast.error('Erro ao editar paciente paciente');
+      }
     },
   },
 });

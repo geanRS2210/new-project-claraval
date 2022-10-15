@@ -5,7 +5,7 @@ import { Form } from '../../components/Form/Form';
 import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Inputs/Input';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { selectValue, loginRequired } from './authSlice';
+import { asyncAuth, selectValue } from './authSlice';
 
 export default function Login(): JSX.Element {
   const [user, setUser] = useState('');
@@ -46,7 +46,7 @@ export default function Login(): JSX.Element {
           user,
           password,
         };
-        dispatch(loginRequired(data));
+        dispatch(asyncAuth(data));
       }
     } catch (error) {
       console.log(error);

@@ -15,12 +15,14 @@ export function Doctor(props: Props): JSX.Element {
   const [data, setData] = useState([
     {
       id: 0,
-      name: '',
+      doctor: '',
       telephone: '',
       whatsapp: '',
+      number: '',
       address: '',
       specialty: '',
       localPay: false,
+      comment: '',
     },
   ]);
 
@@ -41,8 +43,8 @@ export function Doctor(props: Props): JSX.Element {
       <option value=""> </option>
       {data.map((d) => {
         return (
-          <option value={d.name} key={d.id}>
-            {d.name}
+          <option value={d.doctor} key={d.id}>
+            {d.doctor}
           </option>
         );
       })}

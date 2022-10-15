@@ -9,10 +9,9 @@ import {
 import { Link } from 'react-router-dom';
 import { Wrapper } from './styles';
 import { List } from '../../components/List/List';
-import { database } from '../../example/database';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { patientRemove } from './patientSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import jspdf from '../../config/jspdf';
+import { asyncSchedulePatient, asyncUpdatePatient } from './patientSlice';
 
 export function Schedule(): JSX.Element {
   const [data, setData] = useState([
@@ -24,18 +23,21 @@ export function Schedule(): JSX.Element {
       cpf: '',
       state: '',
       telephone: '',
+      address: '',
+      doctor: '',
+      rg: '',
     },
   ]);
   const [select, setSelect] = useState('awaiting');
   const dispatch = useAppDispatch();
+  const database = useAppSelector((state) => state.patient.data);
   useEffect(() => {
-    // const response = axios.get('/patient')
-    // setData(response.data)
+    dispatch(asyncSchedulePatient());
     setData(database);
-  }, []);
+  }, [database]);
 
   const handleClickDelete = (e: number) => {
-    dispatch(patientRemove(e));
+    dispatch(asyncUpdatePatient({ id: e, state: 'overdue' }));
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;
@@ -52,7 +54,7 @@ export function Schedule(): JSX.Element {
         >
           <option value="awaiting">Aguardando agendamento</option>
           <option value="take">Para retirar guias</option>
-          <option value="overdue">Guias não retiradas</option>
+          <option value="overdue">Guias não retiradas/Canceladas</option>
           <option value="finished">Agendamento finalizado</option>
         </select>
       </section>
@@ -75,6 +77,14 @@ export function Schedule(): JSX.Element {
                 )}
               </li>
               <li>
+                {d.state === 'take' ? (
+                  <FaTrashAlt
+                    onClick={() => handleClickDelete(d.id)}
+                    className="delete-button"
+                  />
+                ) : null}
+              </li>
+              <li>
                 {d.state === 'awaiting' ? (
                   <Link to={`/agendar/:${'finish'}/:${d.id}`}>
                     <FaUserCheck />
@@ -85,7 +95,10 @@ export function Schedule(): JSX.Element {
               </li>
               <li>
                 {d.state === 'awaiting' ? (
-                  <FaTrashAlt onClick={() => handleClickDelete(d.id)} />
+                  <FaTrashAlt
+                    onClick={() => handleClickDelete(d.id)}
+                    className="delete-button"
+                  />
                 ) : null}
               </li>
             </List>

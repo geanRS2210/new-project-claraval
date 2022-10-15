@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
-import { Wrapper } from '../Schedule/styles';
+import { Wrapper } from '../PageSchedule/styles';
 import { database } from '../../example/operatorData';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { asyncCreateOperator, asyncUpdateOperator } from './operatorSlice';

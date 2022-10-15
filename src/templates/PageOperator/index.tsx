@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaInfo, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Wrapper } from '../Schedule/styles';
+import { Wrapper } from '../PageSchedule/styles';
 import { List } from '../../components/List/List';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { Button } from '../../components/Button/Button';
@@ -71,7 +71,10 @@ export default function Operator(): JSX.Element {
                     </Link>
                   </li>
                   <li>
-                    <FaTrashAlt onClick={() => handleClickDelete(d.id)} />
+                    <FaTrashAlt
+                      onClick={() => handleClickDelete(d.id)}
+                      className="delete-button"
+                    />
                   </li>
                 </>
               ) : (

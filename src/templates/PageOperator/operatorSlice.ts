@@ -82,7 +82,9 @@ export const operatorSlice = createSlice({
         state.data = payload.payload;
       })
       .addCase(asyncOperator.rejected, (state) => {
-        toast.error('Houve um erro inesperdo');
+        toast.error(
+          'Ocorreu um erro inesperado entre em contato com o suporte!!',
+        );
         state.loading = true;
       })
       .addCase(asyncCreateOperator.pending, (state) => {
@@ -93,7 +95,9 @@ export const operatorSlice = createSlice({
         state.data = payload.payload;
       })
       .addCase(asyncCreateOperator.rejected, (state) => {
-        toast.error('Houve um erro inesperdo');
+        toast.error(
+          'Ocorreu um erro inesperado entre em contato com o suporte!!',
+        );
         state.loading = true;
       })
       .addCase(asyncUpdateOperator.pending, (state) => {
@@ -104,7 +108,9 @@ export const operatorSlice = createSlice({
         state.data = payload.payload;
       })
       .addCase(asyncUpdateOperator.rejected, (state) => {
-        toast.error('Houve um erro inesperdo');
+        toast.error(
+          'Ocorreu um erro inesperado entre em contato com o suporte!!',
+        );
         state.loading = true;
       });
   },

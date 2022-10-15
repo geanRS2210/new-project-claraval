@@ -9,12 +9,12 @@ import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
-import { database } from '../../example/database';
-import { patientSchedule, patientEdit } from './patientSlice';
+import { database } from '../../example/patientData';
+import { asyncCreatePatient, asyncUpdatePatient } from './patientSlice';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');
-  const [dateBirth, setDateBirth] = useState('');
+  const [birthDate, setDateBirth] = useState('');
   const [telephone, settelephone] = useState('');
   const [nameMom, setNameMom] = useState('');
   const [address, setAddress] = useState('');
@@ -27,11 +27,13 @@ export function Patient(): JSX.Element {
   const [checkInfo, setCheckInfo] = useState(false);
   const [setFormat] = useFormat();
   const { id, param } = useParams();
+  const [userID, setID] = useState(0);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (id && param) {
-      const userID = Number(id.slice(1));
+      const indent = Number(id.slice(1));
+      setID(indent);
       const parameter = param.slice(1);
       if (parameter === 'finish') setCheck(true);
       if (parameter === 'info') setCheckInfo(true);
@@ -59,7 +61,7 @@ export function Patient(): JSX.Element {
       setRg('');
       setCheck(false);
     }
-  }, [id, param]);
+  }, [userID, param]);
 
   const checkErr = (): boolean => {
     let errors = false;
@@ -67,7 +69,7 @@ export function Patient(): JSX.Element {
       toast.error('nome não pode ficar em branco');
       errors = true;
     }
-    if (dateBirth.length < 10) {
+    if (birthDate.length < 10) {
       toast.error('Data de nascimento incorreta');
       errors = true;
     }
@@ -104,19 +106,43 @@ export function Patient(): JSX.Element {
 
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
-    payload: string,
+    state: string,
   ) => {
     e.preventDefault();
     const errors = checkErr();
     if (!errors) {
-      dispatch(patientSchedule(payload));
+      dispatch(
+        asyncCreatePatient({
+          name,
+          birthDate,
+          nameMom,
+          cpf,
+          address,
+          state,
+          telephone,
+          doctor,
+          rg,
+        }),
+      );
     }
   };
   const handleEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const errors = checkErr();
     if (!errors) {
-      dispatch(patientEdit());
+      dispatch(
+        asyncUpdatePatient({
+          id: userID,
+          name,
+          birthDate,
+          nameMom,
+          cpf,
+          address,
+          telephone,
+          doctor,
+          rg,
+        }),
+      );
     }
   };
 
@@ -133,7 +159,7 @@ export function Patient(): JSX.Element {
         />
         <Input
           type="text"
-          value={dateBirth}
+          value={birthDate}
           className="date"
           placeHolder="DD/MM/AAAA"
           onChange={(e) => {

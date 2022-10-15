@@ -79,4 +79,7 @@ export const Wrapper = styled.div`
       color: white;
     }
   }
+  .delete-button {
+    cursor: pointer;
+  }
 `;

@@ -3,9 +3,10 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import Login from '../templates/PageLogin';
 import App from '../templates/Home';
-import { Schedule } from '../templates/Schedule/Schedule';
-import { Patient } from '../templates/Schedule/Patient';
+import { Schedule } from '../templates/PageSchedule';
+import { Patient } from '../templates/PageSchedule/Add';
 import { OperatorAdd } from '../templates/PageOperator/Add';
+import Specialty from '../templates/PageSpecialty';
 import Operator from '../templates/PageOperator';
 
 export function RoutesApp(): JSX.Element {
@@ -22,6 +23,7 @@ export function RoutesApp(): JSX.Element {
           <Route path="operadores/add/" element={<OperatorAdd />}>
             <Route path=":param/:id" element={<OperatorAdd />} />
           </Route>
+          <Route path="/especialistas" element={<Specialty />} />
         </Route>
       </Routes>
     </BrowserRouter>

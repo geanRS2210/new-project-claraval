@@ -63,16 +63,6 @@ export function Patient(): JSX.Element {
         }
         return null;
       });
-    } else {
-      setName('');
-      setDateBirth('');
-      setNameMom('');
-      setCpf('');
-      settelephone('');
-      setAddress('');
-      setDoctor('');
-      setRg('');
-      setCheck(false);
     }
   }, [userID, param]);
 
@@ -161,6 +151,19 @@ export function Patient(): JSX.Element {
     }
   };
 
+  const handleCancel = () => {
+    setName('');
+    setDateBirth('');
+    setNameMom('');
+    setCpf('');
+    settelephone('');
+    setAddress('');
+    setDoctor('');
+    setRg('');
+    setCheck(false);
+    navigate('/agenda');
+  };
+
   return (
     <Wrapper>
       <Form>
@@ -244,13 +247,14 @@ export function Patient(): JSX.Element {
             disabled={checkInfo}
           />
         </Check>
-        <a href="/agendar">
-          <Button type="button">Cancelar</Button>
-        </a>
+        <Button type="reset" onClick={handleCancel} disabled={checkInfo}>
+          Cancelar
+        </Button>
         {!check ? (
           <>
             <Button
               type="submit"
+              disabled={checkInfo}
               onClick={
                 param?.slice(1) === 'edit'
                   ? (e) => handleEdit(e)
@@ -259,12 +263,20 @@ export function Patient(): JSX.Element {
             >
               Salvar
             </Button>
-            <Button type="submit" onClick={() => setCheck(true)}>
+            <Button
+              type="submit"
+              disabled={checkInfo}
+              onClick={() => setCheck(true)}
+            >
               Agendar
             </Button>
           </>
         ) : (
-          <Button type="submit" onClick={(e) => handleClick(e, 'take')}>
+          <Button
+            type="submit"
+            disabled={checkInfo}
+            onClick={(e) => handleClick(e, 'take')}
+          >
             Agendar
           </Button>
         )}

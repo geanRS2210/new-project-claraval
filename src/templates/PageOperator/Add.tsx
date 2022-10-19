@@ -48,11 +48,6 @@ export function OperatorAdd(): JSX.Element {
         }
         return null;
       });
-    } else {
-      setUser('');
-      setLevel('');
-      setPassword('');
-      setLevel('operator');
     }
   }, [userID, param]);
 
@@ -82,6 +77,14 @@ export function OperatorAdd(): JSX.Element {
         dispatch(asyncCreateOperator(data));
       }
     }
+  };
+
+  const handleCancel = () => {
+    setUser('');
+    setLevel('');
+    setPassword('');
+    setLevel('operator');
+    navigate('/operadores');
   };
 
   return (
@@ -127,11 +130,9 @@ export function OperatorAdd(): JSX.Element {
         >
           Salvar
         </Button>
-        <a href="/operadores">
-          <Button type="button" disabled={infoCheck}>
-            Cancelar
-          </Button>
-        </a>
+        <Button type="reset" disabled={infoCheck} onClick={handleCancel}>
+          Cancelar
+        </Button>
       </Form>
     </Wrapper>
   );

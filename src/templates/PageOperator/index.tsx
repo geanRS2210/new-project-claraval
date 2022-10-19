@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaInfo, FaTrashAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Wrapper } from '../PageSchedule/styles';
 import { List } from '../../components/List/List';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -20,13 +20,14 @@ export default function Operator(): JSX.Element {
   const [select, setSelect] = useState('valid');
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.operator.data);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(asyncOperator());
     setData(database);
   }, [data]);
 
   const handleClickDelete = (e: number) => {
-    dispatch(asyncUpdateOperator({ id: e, state: 'invalid' }));
+    dispatch(asyncUpdateOperator({ id: e, state: 'invalid', navigate }));
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;

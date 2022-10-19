@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { useFormat } from '../../hooks/useFormat';
@@ -9,7 +9,7 @@ import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
-import { database } from '../../example/patientData';
+import { database } from '../../mocks/patientData';
 import { asyncCreatePatient, asyncUpdatePatient } from './patientSlice';
 
 export function Patient(): JSX.Element {
@@ -25,18 +25,31 @@ export function Patient(): JSX.Element {
   const [value, setvalue] = useState('');
   const [check, setCheck] = useState(false);
   const [checkInfo, setCheckInfo] = useState(false);
+  // const [data, setData] = useState([{}]);
   const [setFormat] = useFormat();
   const { id, param } = useParams();
   const [userID, setID] = useState(0);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  // async function getData() {
+  // try {
+  //  const response = await axios.get(`/patient/${userID}`);
+  //  setData(response.data);
+  // } catch (e) {
+  //  toast.error('Ocorreu um erro inesperado, entre em contato com o suporte!!);
+  // };
+  // }
 
   useEffect(() => {
     if (id && param) {
       const indent = Number(id.slice(1));
       setID(indent);
+      // getData();
       const parameter = param.slice(1);
       if (parameter === 'finish') setCheck(true);
       if (parameter === 'info') setCheckInfo(true);
+      // data.map((d) => {
       database.map((d) => {
         if (d.id === userID) {
           setName(d.name);
@@ -122,6 +135,7 @@ export function Patient(): JSX.Element {
           telephone,
           doctor,
           rg,
+          navigate,
         }),
       );
     }
@@ -141,6 +155,7 @@ export function Patient(): JSX.Element {
           telephone,
           doctor,
           rg,
+          navigate,
         }),
       );
     }

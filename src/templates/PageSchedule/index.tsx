@@ -6,7 +6,7 @@ import {
   FaInfo,
   FaPrint,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Wrapper } from './styles';
 import { List } from '../../components/List/List';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -31,13 +31,14 @@ export function Schedule(): JSX.Element {
   const [select, setSelect] = useState('awaiting');
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.patient.data);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(asyncSchedulePatient());
     setData(database);
   }, [database]);
 
   const handleClickDelete = (e: number) => {
-    dispatch(asyncUpdatePatient({ id: e, state: 'overdue' }));
+    dispatch(asyncUpdatePatient({ id: e, state: 'overdue', navigate }));
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;

@@ -1,9 +1,5 @@
 export const database = [
   {
-    value: 'all',
-    text: 'Todos',
-  },
-  {
     value: 'cardiologia',
     text: 'Cardiologia',
   },
@@ -38,10 +34,6 @@ export const database = [
   {
     text: 'Ginecologia e Obstetricia',
     value: 'ginecologia-obstetricia',
-  },
-  {
-    text: 'Geriatria',
-    value: 'geriatria',
   },
   {
     text: 'Hematologia',

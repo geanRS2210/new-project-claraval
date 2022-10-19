@@ -6,6 +6,7 @@ import App from '../templates/Home';
 import { Schedule } from '../templates/PageSchedule';
 import { Patient } from '../templates/PageSchedule/Add';
 import { OperatorAdd } from '../templates/PageOperator/Add';
+import { SpecialtyAdd } from '../templates/PageSpecialty/Add';
 import Specialty from '../templates/PageSpecialty';
 import Operator from '../templates/PageOperator';
 
@@ -24,6 +25,9 @@ export function RoutesApp(): JSX.Element {
             <Route path=":param/:id" element={<OperatorAdd />} />
           </Route>
           <Route path="/especialistas" element={<Specialty />} />
+          <Route path="/especialistas/add/" element={<SpecialtyAdd />}>
+            <Route path=":param/:id" element={<SpecialtyAdd />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

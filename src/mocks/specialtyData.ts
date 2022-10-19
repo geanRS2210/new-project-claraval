@@ -6,9 +6,9 @@ export const database = [
     whatsapp: '',
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
-    specialty: 'nefrologia',
-    localPay: true,
-    comment: 'bla bla',
+    specialty: 'dermatologia',
+    localPay: 'Sim',
+    comment: '',
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ export const database = [
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
     specialty: 'dermatologia',
-    localPay: true,
+    localPay: 'Sim',
     comment: 'bla bla',
   },
   {
@@ -29,7 +29,7 @@ export const database = [
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
     specialty: 'urologia',
-    localPay: false,
+    localPay: 'Não',
     comment: 'bla bla',
   },
   {
@@ -39,8 +39,8 @@ export const database = [
     whatsapp: '',
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
-    specialty: 'dermatologia',
-    localPay: false,
+    specialty: 'vascular',
+    localPay: 'Não',
     comment: 'bla bla',
   },
   {
@@ -50,8 +50,8 @@ export const database = [
     whatsapp: '',
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
-    specialty: 'cardioloogia',
-    localPay: false,
+    specialty: 'psiquiatria',
+    localPay: 'Não',
     comment: 'bla bla',
   },
   {
@@ -61,8 +61,8 @@ export const database = [
     whatsapp: '',
     number: '250',
     address: 'Rua joaquim spereta, 1250, São joaquim',
-    specialty: 'dermatologia',
-    localPay: false,
+    specialty: 'neurologia',
+    localPay: 'Não',
     comment: 'bla bla',
   },
 ];

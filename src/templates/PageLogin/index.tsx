@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Heading } from '../../components/Heading/Heading';
@@ -12,6 +13,7 @@ export default function Login(): JSX.Element {
   const [password, setPassword] = useState('');
   const { loading } = useAppSelector(selectValue);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleChangePassword = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -45,6 +47,7 @@ export default function Login(): JSX.Element {
         const data = {
           user,
           password,
+          navigate,
         };
         dispatch(asyncAuth(data));
       }

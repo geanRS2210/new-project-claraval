@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { DoctorStyled } from './styles';
-import { database } from '../../example/specialtyData';
+import { database } from '../../mocks/specialtyData';
 
 interface Props {
   disabled?: boolean;
@@ -21,7 +21,7 @@ export function Doctor(props: Props): JSX.Element {
       number: '',
       address: '',
       specialty: '',
-      localPay: false,
+      localPay: '',
       comment: '',
     },
   ]);

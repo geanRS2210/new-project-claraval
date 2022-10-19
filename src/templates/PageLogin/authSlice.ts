@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
 import { RootState } from '../../store';
@@ -13,6 +14,7 @@ interface InitialState {
 interface Amount {
   user: string;
   password: string;
+  navigate: NavigateFunction;
 }
 
 const initialState: InitialState = {
@@ -26,9 +28,9 @@ const initialState: InitialState = {
 export const asyncAuth = createAsyncThunk(
   'auth/fetcAuth',
   async (amount: Amount) => {
-    const { user, password } = amount;
+    const { user, password, navigate } = amount;
     const response = await axios.post('login', { user, password });
-    return response.data;
+    return { ...response.data, navigate };
   },
 );
 
@@ -42,11 +44,13 @@ const authReducer = createSlice({
         state.loading = true;
       })
       .addCase(asyncAuth.fulfilled, (state, payload) => {
+        const { navigate } = payload.payload;
         state.loggedin = true;
         state.user = payload.payload.user;
         state.level = payload.payload.level;
         axios.defaults.headers.authorization = payload.payload.token;
         state.loading = false;
+        navigate('/agenda');
         toast.success('Usuário logado com sucesso!!');
       })
       .addCase(asyncAuth.rejected, (state) => {

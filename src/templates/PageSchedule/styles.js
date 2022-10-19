@@ -26,10 +26,32 @@ export const Wrapper = styled.div`
       border-radius: 20px;
     }
   }
+  section {
+    justify-content: center;
+  }
   & .date {
     width: 140px;
     display: inline-block;
     margin: 5px 20px;
+  }
+  .number-local {
+    width: 140px;
+    margin: 20px auto;
+    display: block;
+  }
+  .comments {
+    width: 400px;
+    height: 200px;
+    text-align: start;
+    background-color: gray;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    &:hover {
+      transition-duration: 0.35s;
+      background-color: black;
+      color: white;
+    }
   }
   & .telephone {
     width: 170px;
@@ -81,5 +103,25 @@ export const Wrapper = styled.div`
   }
   .delete-button {
     cursor: pointer;
+  }
+  .radio {
+    display: inline-block;
+  }
+  fieldset {
+    border: none;
+    width: 400px;
+    margin: auto;
+  }
+  .local-pay {
+    font-size: 16px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: gray;
+    display: inline-block;
+    margin: 15px;
+    color: white;
+    &:hover {
+      background-color: black;
+    }
   }
 `;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from '../PageSchedule/styles';
-import { database } from '../../example/operatorData';
+import { database } from '../../mocks/operatorData';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { asyncCreateOperator, asyncUpdateOperator } from './operatorSlice';
 
@@ -17,16 +17,29 @@ export function OperatorAdd(): JSX.Element {
   const [check, setCheck] = useState(false);
   const [infoCheck, setCheckInfo] = useState(false);
   const [userID, setUserId] = useState(0);
+  // const [data, setData] = useState([{}]);
   const { id, param } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  // async function getData() {
+  // try {
+  //  const response = await axios.get(`/operator/${userID}`);
+  //  setData(response.data);
+  // } catch (e) {
+  //  toast.error('Ocorreu um erro inesperado, entre em contato com o suporte!!);
+  // };
+  // }
 
   useEffect(() => {
     if (id && param) {
       const ident = Number(id.slice(1));
       setUserId(ident);
+      // getData();
       const parameter = param.slice(1);
       if (parameter === 'edit') setCheck(true);
       if (parameter === 'info') setCheckInfo(true);
+      // data.map((d) => {
       database.map((d) => {
         if (d.id === userID) {
           setUser(d.user);
@@ -62,10 +75,10 @@ export function OperatorAdd(): JSX.Element {
     }
     if (!error) {
       if (check) {
-        const data = { user, id: userID, level, password };
+        const data = { user, id: userID, level, password, navigate };
         dispatch(asyncUpdateOperator(data));
       } else {
-        const data = { user, id: userID, level, password };
+        const data = { user, id: userID, level, password, navigate };
         dispatch(asyncCreateOperator(data));
       }
     }

@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
-import { database } from '../../example/patientData';
+import { database } from '../../mocks/patientData';
 import { RootState } from '../../store';
 
 interface State {
@@ -31,6 +32,7 @@ type Amount = {
   address?: string;
   doctor?: string;
   rg?: string;
+  navigate: NavigateFunction;
 };
 const initialState: State = {
   token: '',
@@ -73,6 +75,7 @@ export const asyncCreatePatient = createAsyncThunk(
       telephone,
       doctor,
       rg,
+      navigate,
     } = amount;
     const response = await axios.post('patient', {
       birthDate,
@@ -85,7 +88,7 @@ export const asyncCreatePatient = createAsyncThunk(
       rg,
       name,
     });
-    return response.data;
+    return { ...response.data, navigate };
   },
 );
 export const asyncUpdatePatient = createAsyncThunk(
@@ -102,6 +105,7 @@ export const asyncUpdatePatient = createAsyncThunk(
       telephone,
       doctor,
       rg,
+      navigate,
     } = amount;
 
     const response = await axios.put(`/patient/${id}`, {
@@ -115,7 +119,7 @@ export const asyncUpdatePatient = createAsyncThunk(
       doctor,
       rg,
     });
-    return response.data;
+    return { ...response.data, navigate };
   },
 );
 export const patientSlice = createSlice({
@@ -128,8 +132,8 @@ export const patientSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncSchedulePatient.fulfilled, (state, payload) => {
-        state.data = payload.payload;
         state.loading = false;
+        state.data = payload.payload;
       })
       .addCase(asyncSchedulePatient.rejected, (state) => {
         state.loading = false;
@@ -140,9 +144,11 @@ export const patientSlice = createSlice({
       .addCase(asyncCreatePatient.pending, (state) => {
         state.loading = true;
       })
-      .addCase(asyncCreatePatient.fulfilled, (state) => {
-        toast.success('Paciente Cadastrado com sucesso');
+      .addCase(asyncCreatePatient.fulfilled, (state, payload) => {
+        const { id, navigate } = payload.payload;
         state.loading = false;
+        navigate(`/agendar/${'edit'}/${id}`);
+        toast.success('Paciente Cadastrado com sucesso');
       })
       .addCase(asyncCreatePatient.rejected, (state) => {
         state.loading = false;
@@ -153,9 +159,11 @@ export const patientSlice = createSlice({
       .addCase(asyncUpdatePatient.pending, (state) => {
         state.loading = true;
       })
-      .addCase(asyncUpdatePatient.fulfilled, (state) => {
-        toast.success('Paciente editado com succeso');
+      .addCase(asyncUpdatePatient.fulfilled, (state, payload) => {
+        const { id, navigate } = payload.payload;
         state.loading = false;
+        navigate(`/agendar/${'info'}/${id}`);
+        toast.success('Paciente editado com succeso');
       })
       .addCase(asyncUpdatePatient.rejected, (state) => {
         state.loading = false;

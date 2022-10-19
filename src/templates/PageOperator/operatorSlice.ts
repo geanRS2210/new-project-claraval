@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
-import { database } from '../../example/operatorData';
+import { database } from '../../mocks/operatorData';
 
 interface InitialState {
   loading: boolean;
@@ -19,6 +20,7 @@ interface Amount {
   level?: string;
   password?: string;
   state?: string;
+  navigate: NavigateFunction;
 }
 const initialState: InitialState = {
   loading: false,
@@ -44,27 +46,27 @@ export const asyncOperator = createAsyncThunk(
 export const asyncUpdateOperator = createAsyncThunk(
   'operator/fetchUpdateOperator',
   async (amount: Amount) => {
-    const { user, level, id, password, state } = amount;
+    const { user, level, id, password, state, navigate } = amount;
     const response = await axios.put(`/operator/${id}`, {
       user,
       level,
       password: password || null,
       state,
     });
-    return response.data;
+    return { ...response.data, navigate };
   },
 );
 export const asyncCreateOperator = createAsyncThunk(
   'operator/fetchCreateOperator',
   async (amount: Amount) => {
-    const { user, level, password, state } = amount;
+    const { user, level, password, state, navigate } = amount;
     const response = await axios.post('/operator', {
       user,
       password,
       level,
       state,
     });
-    return response.data;
+    return { ...response.data, navigate };
   },
 );
 
@@ -91,8 +93,10 @@ export const operatorSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncCreateOperator.fulfilled, (state, payload) => {
+        const { navigate, id } = payload.payload;
         state.loading = false;
-        state.data = payload.payload;
+        navigate(`/operadores/add/${'edit'}/${id}`);
+        toast.success('Operador criado com sucesso');
       })
       .addCase(asyncCreateOperator.rejected, (state) => {
         toast.error(
@@ -104,8 +108,10 @@ export const operatorSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncUpdateOperator.fulfilled, (state, payload) => {
+        const { navigate, id } = payload.payload;
         state.loading = false;
-        state.data = payload.payload;
+        navigate(`/operadores/add/${'info'}/${id}`);
+        toast.success('Operador editado com sucesso');
       })
       .addCase(asyncUpdateOperator.rejected, (state) => {
         toast.error(

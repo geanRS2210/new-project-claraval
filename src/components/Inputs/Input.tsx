@@ -8,10 +8,23 @@ interface Props {
   value: string | number;
   className?: string;
   disabled?: boolean;
+  name?: string;
+  patern?: string;
+  min?: string;
 }
 
 export function Input(props: Props): JSX.Element {
-  const { type, onChange, placeHolder, value, className, disabled } = props;
+  const {
+    type,
+    onChange,
+    placeHolder,
+    value,
+    className,
+    disabled,
+    name,
+    patern,
+    min,
+  } = props;
 
   return (
     <InputStyled
@@ -25,6 +38,9 @@ export function Input(props: Props): JSX.Element {
       placeholder={placeHolder}
       className={className}
       disabled={disabled}
+      name={name}
+      pattern={patern}
+      min={min}
     />
   );
 }

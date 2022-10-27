@@ -50,7 +50,7 @@ export function Schedule(): JSX.Element {
     <Wrapper>
       {loading ? (
         <div className="loading">
-          <h1>Carregando...</h1>
+          <h1>Carregando</h1>
         </div>
       ) : null}
 

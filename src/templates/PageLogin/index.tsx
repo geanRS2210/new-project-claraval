@@ -66,7 +66,7 @@ export default function Login(): JSX.Element {
         </section>
         {loading ? (
           <div className="loading">
-            <h1>Carregando...</h1>
+            <h1>Carregando</h1>
           </div>
         ) : null}
 

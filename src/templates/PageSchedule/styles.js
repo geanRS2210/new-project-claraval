@@ -153,5 +153,45 @@ export const Wrapper = styled.div`
     top: 0px;
     bottom: 0px;
     background-color: rgba(0, 0, 0, 0.3);
+    & > h1 {
+      animation-duration: 1.3s;
+      animation-name: carregando;
+      animation-iteration-count: infinite;
+    }
+    @keyframes carregando {
+      from {
+        font-size: 17px;
+      }
+      10% {
+        font-size: 18px;
+      }
+      20% {
+        font-size: 19px;
+      }
+      30% {
+        font-size: 20px;
+      }
+      40% {
+        font-size: 21px;
+      }
+      50% {
+        font-size: 22px;
+      }
+      60% {
+        font-size: 21px;
+      }
+      70% {
+        font-size: 20px;
+      }
+      80% {
+        font-size: 19px;
+      }
+      90% {
+        font-size: 18px;
+      }
+      to {
+        font-size: 17px;
+      }
+    }
   }
 `;

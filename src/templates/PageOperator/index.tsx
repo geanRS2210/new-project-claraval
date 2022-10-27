@@ -54,49 +54,47 @@ export default function Operator(): JSX.Element {
         </select>
         <br />
         <Link to="/operadores/add">
-          <Button type="submit" className="add-operator">
-            Cadastrar
-          </Button>
+          <Button type="submit">Cadastrar</Button>
         </Link>
-      </section>
-      {data.map((d) => {
-        if (d.state === select) {
-          return (
-            <List key={d.id}>
-              <li>{d.user}</li>
-              <li>{d.state === 'valid' ? 'Ativo' : 'Inativo'}</li>
-              <li>{d.level}</li>
-              {d.state === 'valid' ? (
-                <>
-                  <li>
-                    <Link to={`/operadores/add/:${'edit'}/:${d.id}`}>
-                      <FaEdit />
-                    </Link>
-                  </li>
+        {data.map((d) => {
+          if (d.state === select) {
+            return (
+              <List key={d.id}>
+                <li>{d.user}</li>
+                <li>{d.state === 'valid' ? 'Ativo' : 'Inativo'}</li>
+                <li>{d.level}</li>
+                {d.state === 'valid' ? (
+                  <>
+                    <li>
+                      <Link to={`/operadores/add/:${'edit'}/:${d.id}`}>
+                        <FaEdit />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/operadores/add/:${'info'}/:${d.id}`}>
+                        <FaInfo />
+                      </Link>
+                    </li>
+                    <li>
+                      <FaTrashAlt
+                        onClick={() => handleClickDelete(d.id)}
+                        className="delete-button"
+                      />
+                    </li>
+                  </>
+                ) : (
                   <li>
                     <Link to={`/operadores/add/:${'info'}/:${d.id}`}>
                       <FaInfo />
                     </Link>
                   </li>
-                  <li>
-                    <FaTrashAlt
-                      onClick={() => handleClickDelete(d.id)}
-                      className="delete-button"
-                    />
-                  </li>
-                </>
-              ) : (
-                <li>
-                  <Link to={`/operadores/add/:${'info'}/:${d.id}`}>
-                    <FaInfo />
-                  </Link>
-                </li>
-              )}
-            </List>
-          );
-        }
-        return null;
-      })}
+                )}
+              </List>
+            );
+          }
+          return null;
+        })}
+      </section>
     </Wrapper>
   );
 }

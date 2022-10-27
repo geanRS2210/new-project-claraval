@@ -6,11 +6,8 @@ export const Wrapper = styled.div`
   text-align: center;
   justify-content: center;
   background-color: white;
-  height: 554px;
+  height: 550px;
   overflow: auto;
-  section {
-    justify-content: center;
-  }
   & .date {
     width: 140px;
     display: inline-block;
@@ -89,14 +86,21 @@ export const Wrapper = styled.div`
     height: 30px;
     width: 200px;
     margin: 20px;
+    border-radius: 15px;
+    padding-left: 10px;
   }
-  .add-operator {
-    border: none;
+  .type-specialty {
+    padding-left: 15px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid black;
+    font-size: 14px;
     &:hover {
-      transition-duration: 0.5s;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &:focus {
       border: none;
-      background-color: #18a713;
-      color: white;
+      border-bottom: 2px groove #4dff4d;
     }
   }
   .delete-button {

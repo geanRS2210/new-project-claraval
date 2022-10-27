@@ -50,68 +50,69 @@ export default function Specialty(): JSX.Element {
       <section>
         <Options
           initial="Todos"
-          className="type-schedule"
+          className="type-specialty"
           value={select}
           onChange={handleChange}
         />
         <br />
         <Link to="/especialistas/add">
-          <Button type="submit" className="add-operator">
-            Cadastrar
-          </Button>
+          <Button type="submit">Cadastrar</Button>
         </Link>
-      </section>
-      {data.map((d) => {
-        if (select === 'Todos') {
-          return (
-            <List key={d.id}>
-              <li>{d.doctor}</li>
-              <li>{d.telephone}</li>
-              <li>{d.specialty}</li>
-              <li>
-                <Link to={`/especialistas/add/${'info'}/${d.id}`}>
+        {data.map((d) => {
+          if (select === 'Todos') {
+            return (
+              <List key={d.id}>
+                <li>{d.doctor}</li>
+                <li>{d.telephone}</li>
+                <li>{d.specialty}</li>
+                <li>
+                  <Link to={`/especialistas/add/${'info'}/${d.id}`}>
+                    <FaInfo />
+                  </Link>
+                </li>
+                <li>
+                  <Link to={`/especialistas/add/${'edit'}/${d.id}`}>
+                    <FaEdit />
+                  </Link>
+                </li>
+                <li>
+                  <FaTrashAlt
+                    onClick={handleDelete}
+                    className="delete-button"
+                  />
+                </li>
+                {d.comment.length !== 0 ? (
+                  <li>
+                    <FaComment />
+                  </li>
+                ) : null}
+              </List>
+            );
+          }
+          if (d.specialty === select) {
+            return (
+              <List key={d.id}>
+                <li>{d.doctor}</li>
+                <li>{d.telephone}</li>
+                <li>{d.specialty}</li>
+                <li>
                   <FaInfo />
-                </Link>
-              </li>
-              <li>
-                <Link to={`/especialistas/add/${'edit'}/${d.id}`}>
+                </li>
+                <li>
                   <FaEdit />
-                </Link>
-              </li>
-              <li>
-                <FaTrashAlt onClick={handleDelete} className="delete-button" />
-              </li>
-              {d.comment.length !== 0 ? (
+                </li>
+                <li>
+                  <FaTrashAlt />
+                </li>
                 <li>
                   <FaComment />
                 </li>
-              ) : null}
-            </List>
-          );
-        }
-        if (d.specialty === select) {
-          return (
-            <List key={d.id}>
-              <li>{d.doctor}</li>
-              <li>{d.telephone}</li>
-              <li>{d.specialty}</li>
-              <li>
-                <FaInfo />
-              </li>
-              <li>
-                <FaEdit />
-              </li>
-              <li>
-                <FaTrashAlt />
-              </li>
-              <li>
-                <FaComment />
-              </li>
-            </List>
-          );
-        }
-        return null;
-      })}
+              </List>
+            );
+          }
+          return null;
+        })}
+      </section>
     </Wrapper>
   );
 }

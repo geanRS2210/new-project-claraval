@@ -54,7 +54,7 @@ export function Schedule(): JSX.Element {
         </div>
       ) : null}
 
-      <section>
+      <section className="list-schedule">
         <select
           className="type-schedule"
           value={select}
@@ -65,55 +65,55 @@ export function Schedule(): JSX.Element {
           <option value="overdue">Guias não retiradas/Canceladas</option>
           <option value="finished">Agendamento finalizado</option>
         </select>
+        {data.map((d) => {
+          if (d.state === select) {
+            return (
+              <List key={d.id}>
+                <li>{d.name}</li>
+                <li>{d.birthDate}</li>
+                <li>{d.telephone}</li>
+                <li>
+                  {d.state === 'awaiting' ? (
+                    <Link to={`/agendar/:${'edit'}/:${d.id}`}>
+                      <FaEdit />
+                    </Link>
+                  ) : (
+                    <Link to={`/agendar/:${'info'}/:${d.id}`}>
+                      <FaInfo />
+                    </Link>
+                  )}
+                </li>
+                <li>
+                  {d.state === 'take' ? (
+                    <FaTrashAlt
+                      onClick={() => handleClickDelete(d.id)}
+                      className="delete-button"
+                    />
+                  ) : null}
+                </li>
+                <li>
+                  {d.state === 'awaiting' ? (
+                    <Link to={`/agendar/:${'finish'}/:${d.id}`}>
+                      <FaUserCheck />
+                    </Link>
+                  ) : d.state === 'take' ? (
+                    <FaPrint onClick={() => jspdf(d)} />
+                  ) : null}
+                </li>
+                <li>
+                  {d.state === 'awaiting' ? (
+                    <FaTrashAlt
+                      onClick={() => handleClickDelete(d.id)}
+                      className="delete-button"
+                    />
+                  ) : null}
+                </li>
+              </List>
+            );
+          }
+          return null;
+        })}
       </section>
-      {data.map((d) => {
-        if (d.state === select) {
-          return (
-            <List key={d.id}>
-              <li>{d.name}</li>
-              <li>{d.birthDate}</li>
-              <li>{d.telephone}</li>
-              <li>
-                {d.state === 'awaiting' ? (
-                  <Link to={`/agendar/:${'edit'}/:${d.id}`}>
-                    <FaEdit />
-                  </Link>
-                ) : (
-                  <Link to={`/agendar/:${'info'}/:${d.id}`}>
-                    <FaInfo />
-                  </Link>
-                )}
-              </li>
-              <li>
-                {d.state === 'take' ? (
-                  <FaTrashAlt
-                    onClick={() => handleClickDelete(d.id)}
-                    className="delete-button"
-                  />
-                ) : null}
-              </li>
-              <li>
-                {d.state === 'awaiting' ? (
-                  <Link to={`/agendar/:${'finish'}/:${d.id}`}>
-                    <FaUserCheck />
-                  </Link>
-                ) : d.state === 'take' ? (
-                  <FaPrint onClick={() => jspdf(d)} />
-                ) : null}
-              </li>
-              <li>
-                {d.state === 'awaiting' ? (
-                  <FaTrashAlt
-                    onClick={() => handleClickDelete(d.id)}
-                    className="delete-button"
-                  />
-                ) : null}
-              </li>
-            </List>
-          );
-        }
-        return null;
-      })}
     </Wrapper>
   );
 }

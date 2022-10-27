@@ -29,5 +29,11 @@ module.exports = {
     'no-nested-ternary': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'no-param-reassign': 'off',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };

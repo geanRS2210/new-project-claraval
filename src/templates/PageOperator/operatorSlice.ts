@@ -87,7 +87,7 @@ export const operatorSlice = createSlice({
         toast.error(
           'Ocorreu um erro inesperado entre em contato com o suporte!!',
         );
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(asyncCreateOperator.pending, (state) => {
         state.loading = true;
@@ -102,7 +102,7 @@ export const operatorSlice = createSlice({
         toast.error(
           'Ocorreu um erro inesperado entre em contato com o suporte!!',
         );
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(asyncUpdateOperator.pending, (state) => {
         state.loading = true;
@@ -117,7 +117,7 @@ export const operatorSlice = createSlice({
         toast.error(
           'Ocorreu um erro inesperado entre em contato com o suporte!!',
         );
-        state.loading = true;
+        state.loading = false;
       });
   },
 });

@@ -19,17 +19,17 @@ interface Amount {
 
 const initialState: InitialState = {
   token: '',
-  loggedin: false,
+  loggedin: true,
   loading: false,
   user: '',
-  level: '',
+  level: 'administrator',
 };
 
 export const asyncAuth = createAsyncThunk(
   'auth/fetcAuth',
   async (amount: Amount) => {
     const { user, password, navigate } = amount;
-    const response = await axios.post('login', { user, password });
+    const response = await axios.post('/login', { user, password });
     return { ...response.data, navigate };
   },
 );

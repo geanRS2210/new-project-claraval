@@ -7,5 +7,4 @@ export const FormStyled = styled.form`
   text-align: center;
   margin: auto 20px;
   padding: 20px;
-  min-height: 483px;
 `;

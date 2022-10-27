@@ -28,6 +28,7 @@ export function SpecialtyAdd(): JSX.Element {
   const { id, param } = useParams();
   const navigate = useNavigate();
   const database = useAppSelector((state) => state.specialty.data);
+  const loading = useAppSelector((state) => state.specialty.loading);
 
   // async function getData() {
   // try {
@@ -136,6 +137,12 @@ export function SpecialtyAdd(): JSX.Element {
 
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <Form>
         <Input
           type="text"

@@ -1,31 +1,13 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   text-align: center;
+  justify-content: center;
   background-color: white;
   height: 554px;
-  overflow-y: scroll;
-  & input {
-    height: 3px;
-    width: 400px;
-    font-size: 15px;
-    color: white;
-    &::placeholder {
-      color: white;
-    }
-  }
-  & button {
-    margin: 5px 20px;
-    height: 35px;
-    border: none;
-    border-radius: 10px;
-    &:hover {
-      transition-duration: 0.35s;
-      background-color: red;
-      color: white;
-      border-radius: 20px;
-    }
-  }
+  overflow: auto;
   section {
     justify-content: center;
   }
@@ -43,14 +25,14 @@ export const Wrapper = styled.div`
     width: 400px;
     height: 200px;
     text-align: start;
-    background-color: gray;
+    background-color: white;
     border-radius: 15px;
+    border: 1px solid #4dff4d;
     margin: 10px;
     padding: 10px;
     &:hover {
       transition-duration: 0.35s;
-      background-color: black;
-      color: white;
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
   & .telephone {
@@ -61,25 +43,41 @@ export const Wrapper = styled.div`
   & .name {
     width: 400px;
   }
-  & .doctor {
-    width: 440px;
-    height: 46px;
-    border-radius: 15px;
+  .local-pay {
     font-size: 16px;
-    margin-bottom: 15px;
-    color: white;
-    background-color: grey;
-    padding-left: 15px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: white;
+    display: inline-block;
+    border: 1px solid #4dff4d;
+    margin: 15px;
+    color: black;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &:focus {
+      border: none;
+      border-bottom: 2px groove #4dff4d;
+    }
   }
   & .password-test {
-    width: 440px;
-    height: 46px;
+    font-size: 25px;
+    height: 50px;
+    width: 340px;
     border-radius: 15px;
-    font-size: 16px;
-    margin-bottom: 15px;
-    color: white;
-    background-color: grey;
-    padding-left: 15px;
+    background-color: white;
+    display: block;
+    margin: 15px auto;
+    color: black;
+    border: 1px solid #4dff4d;
+    outline: none;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &:focus {
+      border: none;
+      border-bottom: 2px groove #4dff4d;
+    }
   }
   li {
     list-style: none;
@@ -112,16 +110,44 @@ export const Wrapper = styled.div`
     width: 400px;
     margin: auto;
   }
-  .local-pay {
-    font-size: 16px;
-    height: 40px;
-    border-radius: 15px;
-    background-color: gray;
-    display: inline-block;
-    margin: 15px;
-    color: white;
-    &:hover {
-      background-color: black;
+  .form-auth {
+    img {
+      display: inline-block;
+      margin-right: 15px;
     }
+    .section-auth {
+      display: inline-block;
+      position: relative;
+      bottom: 20px;
+      h1 {
+        margin: 2px;
+      }
+      h4 {
+        margin: 2px;
+      }
+    }
+    .user-auth {
+      background-image: url('images/male.png');
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      padding-left: 50px;
+    }
+    .password-auth {
+      background-image: url('images/key.png');
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      padding-left: 50px;
+    }
+  }
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 `;

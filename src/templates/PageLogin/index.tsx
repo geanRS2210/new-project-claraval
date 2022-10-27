@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
-import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Inputs/Input';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncAuth, selectValue } from './authSlice';
+import { Wrapper } from '../PageSchedule/styles';
 
 export default function Login(): JSX.Element {
   const [user, setUser] = useState('');
@@ -57,25 +57,37 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <Form>
-      <Heading>Login/Entrar</Heading>
-      <Heading>{loading ? 'Carregando...' : ''}</Heading>
+    <Wrapper>
+      <Form className="form-auth">
+        <img src="images/brasao-claraval.png" alt="brasão claraval" />
+        <section className="section-auth">
+          <h4>Prefeitura</h4>
+          <h1>Claraval</h1>
+        </section>
+        {loading ? (
+          <div className="loading">
+            <h1>Carregando...</h1>
+          </div>
+        ) : null}
 
-      <Input
-        value={user}
-        type="text"
-        placeHolder="Digite seu usuário ..."
-        onChange={handleChangeUser}
-      />
-      <Input
-        value={password}
-        type="password"
-        placeHolder="Digite sua senha ..."
-        onChange={handleChangePassword}
-      />
-      <Button type="submit" onClick={handleSubmit}>
-        Enviar
-      </Button>
-    </Form>
+        <Input
+          value={user}
+          type="text"
+          placeHolder="Digite seu usuário..."
+          onChange={handleChangeUser}
+          className="user-auth"
+        />
+        <Input
+          value={password}
+          type="password"
+          placeHolder="Digite sua senha ..."
+          onChange={handleChangePassword}
+          className="password-auth"
+        />
+        <Button type="submit" onClick={handleSubmit}>
+          Enviar
+        </Button>
+      </Form>
+    </Wrapper>
   );
 }

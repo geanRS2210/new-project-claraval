@@ -20,6 +20,7 @@ export default function Operator(): JSX.Element {
   const [select, setSelect] = useState('valid');
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.operator.data);
+  const loading = useAppSelector((state) => state.operator.loading);
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(asyncOperator());
@@ -36,6 +37,12 @@ export default function Operator(): JSX.Element {
 
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <section>
         <select
           className="type-schedule"

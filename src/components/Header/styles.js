@@ -1,33 +1,31 @@
 import styled from 'styled-components';
 
 export const HeaderStyled = styled.header`
-  background-color: blue;
-  text-align: center;
-  padding: 8px;
-  & > a {
-    margin: 0px 15px 0px 15px;
-    display: inline-block;
-    height: 35px;
-    width: 125px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+  height: 50px;
+  .links {
     text-decoration: none;
-    & > button {
-      height: 30px;
-      width: 120px;
-      border: none;
-      border-radius: 10px;
-    }
-    & > button:hover {
-      transition-duration: 0.4s;
-      color: white;
-      background-color: #23e61b;
-      border-radius: 15px;
+    color: white;
+    padding: 8px;
+    font-size: 20px;
+    &:hover {
+      transition-duration: 0.3s;
+      background-color: rgba(0, 99, 0, 0.3);
+      border-radius: 8px;
     }
   }
-  .add {
-    background-color: #18a713;
+  .login-logedout {
+    color: white;
     width: 35px;
-  }
-  .add-link {
-    width: 60px;
+    position: relative;
+    top: 2px;
+    &:hover {
+      transition-duration: 0.4s;
+      color: #23e61b;
+    }
   }
 `;

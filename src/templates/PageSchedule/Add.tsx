@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useFormat } from '../../hooks/useFormat';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
@@ -26,6 +26,7 @@ export function Patient(): JSX.Element {
   const [check, setCheck] = useState(false);
   const [checkInfo, setCheckInfo] = useState(false);
   // const [data, setData] = useState([{}]);
+  const loading = useAppSelector((state) => state.patient.loading);
   const [setFormat] = useFormat();
   const { id, param } = useParams();
   const [userID, setID] = useState(0);
@@ -166,6 +167,12 @@ export function Patient(): JSX.Element {
 
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <Form>
         <Input
           type="text"

@@ -6,7 +6,7 @@ import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from '../PageSchedule/styles';
 import { database } from '../../mocks/operatorData';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncCreateOperator, asyncUpdateOperator } from './operatorSlice';
 
 export function OperatorAdd(): JSX.Element {
@@ -18,6 +18,7 @@ export function OperatorAdd(): JSX.Element {
   const [infoCheck, setCheckInfo] = useState(false);
   const [userID, setUserId] = useState(0);
   // const [data, setData] = useState([{}]);
+  const loading = useAppSelector((state) => state.operator.loading);
   const { id, param } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -89,6 +90,12 @@ export function OperatorAdd(): JSX.Element {
 
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <Form>
         <Input
           type="text"

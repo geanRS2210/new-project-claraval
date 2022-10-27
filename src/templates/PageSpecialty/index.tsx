@@ -12,6 +12,7 @@ import { Button } from '../../components/Button/Button';
 export default function Specialty(): JSX.Element {
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.specialty.data);
+  const loading = useAppSelector((state) => state.specialty.loading);
   const [select, setSelect] = useState('Todos');
   const [data, setData] = useState([
     {
@@ -40,6 +41,12 @@ export default function Specialty(): JSX.Element {
   };
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <section>
         <Options
           initial="Todos"

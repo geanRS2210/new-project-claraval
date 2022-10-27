@@ -4,8 +4,10 @@ import { FormStyled } from './styles';
 
 interface Children {
   children: ReactNode;
+  className?: string;
 }
 
-export function Form({ children }: Children): JSX.Element {
-  return <FormStyled>{children}</FormStyled>;
+export function Form(props: Children): JSX.Element {
+  const { children, className } = props;
+  return <FormStyled className={className}>{children}</FormStyled>;
 }

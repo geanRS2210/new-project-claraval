@@ -31,6 +31,7 @@ export function Schedule(): JSX.Element {
   const [select, setSelect] = useState('awaiting');
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.patient.data);
+  const loading = useAppSelector((state) => state.patient.loading);
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(asyncSchedulePatient());
@@ -47,6 +48,12 @@ export function Schedule(): JSX.Element {
 
   return (
     <Wrapper>
+      {loading ? (
+        <div className="loading">
+          <h1>Carregando...</h1>
+        </div>
+      ) : null}
+
       <section>
         <select
           className="type-schedule"

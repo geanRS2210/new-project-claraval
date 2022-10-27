@@ -1,29 +1,41 @@
 import React from 'react';
+import { FaSignOutAlt, FaSignInAlt, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/reduxHooks';
 
 import { HeaderStyled } from './styles';
 
 export function Header(): JSX.Element {
+  const level = useAppSelector((state) => state.auth.level);
+  const auth = useAppSelector((state) => state.auth.loggedin);
+
   return (
     <HeaderStyled>
-      <Link to="/agendar" className="add-link">
-        <button type="button" className="add">
-          {' '}
-          +{' '}
-        </button>
+      <Link to="/agendar">
+        <FaPlus className="login-logedout" />
       </Link>
-      <Link to="/login">
-        <button type="button"> Login </button>
+      <Link to="/agenda" className="links">
+        Agenda
       </Link>
-      <Link to="/agenda">
-        <button type="button"> Agenda </button>
-      </Link>
-      <Link to="/especialistas">
-        <button type="button"> Especialistas </button>
-      </Link>
-      <Link to="/operadores">
-        <button type="button"> Operadores </button>
-      </Link>
+      {level === 'administrator' ? (
+        <>
+          <Link to="/especialistas" className="links">
+            Especialistas
+          </Link>
+          <Link to="/operadores" className="links">
+            Operadores
+          </Link>
+        </>
+      ) : null}
+      {auth ? (
+        <Link to="/login" className="login-logedout">
+          <FaSignOutAlt />
+        </Link>
+      ) : (
+        <Link to="/login" className="login-logedout">
+          <FaSignInAlt />
+        </Link>
+      )}
     </HeaderStyled>
   );
 }

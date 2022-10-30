@@ -11,6 +11,7 @@ interface Props {
   name?: string;
   patern?: string;
   min?: string;
+  pattern?: string;
 }
 
 export function Input(props: Props): JSX.Element {
@@ -24,6 +25,7 @@ export function Input(props: Props): JSX.Element {
     name,
     patern,
     min,
+    pattern,
   } = props;
 
   return (
@@ -39,7 +41,7 @@ export function Input(props: Props): JSX.Element {
       className={className}
       disabled={disabled}
       name={name}
-      pattern={patern}
+      pattern={pattern}
       min={min}
     />
   );

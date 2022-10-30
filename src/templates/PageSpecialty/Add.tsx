@@ -143,7 +143,7 @@ export function SpecialtyAdd(): JSX.Element {
         </div>
       ) : null}
 
-      <Form>
+      <Form className="form-add">
         <Input
           type="text"
           value={doctor}

@@ -8,12 +8,14 @@ import { asyncSpecialty } from './specialtySlice';
 import { Options } from '../../components/OptionsDoctor';
 import { List } from '../../components/List/List';
 import { Button } from '../../components/Button/Button';
+import { Input } from '../../components/Inputs/Input';
 
 export default function Specialty(): JSX.Element {
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.specialty.data);
   const loading = useAppSelector((state) => state.specialty.loading);
   const [select, setSelect] = useState('Todos');
+  const [search, setSearch] = useState('');
   const [data, setData] = useState([
     {
       id: 0,
@@ -27,9 +29,11 @@ export default function Specialty(): JSX.Element {
       localPay: '',
     },
   ]);
+  const [dataSearch, setdataSearch] = useState(data);
   useEffect(() => {
     dispatch(asyncSpecialty());
     setData(database);
+    setdataSearch(database);
   }, [data]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,6 +43,22 @@ export default function Specialty(): JSX.Element {
   const handleDelete = () => {
     console.log('disparo do update');
   };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    const val = e.target.value.toLocaleLowerCase();
+    if (e.target.value.length !== 0) {
+      const val2 = data.filter((d) => {
+        if (d.doctor.toLocaleLowerCase().includes(val)) {
+          return d;
+        }
+        return null;
+      });
+      setdataSearch(val2);
+    } else {
+      setdataSearch(data);
+    }
+  };
+
   return (
     <Wrapper>
       {loading ? (
@@ -54,11 +74,17 @@ export default function Specialty(): JSX.Element {
           value={select}
           onChange={handleChange}
         />
-        <br />
         <Link to="/especialistas/add">
           <Button type="submit">Cadastrar</Button>
         </Link>
-        {data.map((d) => {
+        <Input
+          type="search"
+          value={search}
+          className="search"
+          onChange={(e) => handleSearch(e)}
+        />
+
+        {dataSearch.map((d) => {
           if (select === 'Todos') {
             return (
               <List key={d.id}>

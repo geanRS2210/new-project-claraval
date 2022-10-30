@@ -37,7 +37,14 @@ export const asyncAuth = createAsyncThunk(
 const authReducer = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    authReverse: (state) => {
+      state.level = '';
+      state.loggedin = false;
+      state.user = '';
+      state.level = '';
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(asyncAuth.pending, (state) => {
@@ -59,6 +66,8 @@ const authReducer = createSlice({
       });
   },
 });
+
+export const { authReverse } = authReducer.actions;
 
 export const selectValue = (state: RootState) => state.auth;
 

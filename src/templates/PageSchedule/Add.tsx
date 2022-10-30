@@ -103,7 +103,7 @@ export function Patient(): JSX.Element {
         toast.error('A data do agendamento é obrigatório');
         errors = true;
       }
-      if (value.length === 0) setvalue('200');
+      if (value.length === 0) setvalue('200,00');
     }
     return errors;
   };
@@ -126,6 +126,8 @@ export function Patient(): JSX.Element {
           telephone,
           doctor,
           rg,
+          appointmeintDate,
+          value,
           navigate,
         }),
       );
@@ -146,6 +148,8 @@ export function Patient(): JSX.Element {
           telephone,
           doctor,
           rg,
+          appointmeintDate,
+          value,
           navigate,
         }),
       );
@@ -173,7 +177,7 @@ export function Patient(): JSX.Element {
         </div>
       ) : null}
 
-      <Form>
+      <Form className="form-add">
         <Input
           type="text"
           value={name}
@@ -191,9 +195,10 @@ export function Patient(): JSX.Element {
             setDateBirth(setFormat('date', e));
           }}
           disabled={checkInfo}
+          pattern="[0-9]"
         />
         <Input
-          type="text"
+          type="tel"
           value={telephone}
           className="telephone"
           placeHolder="(00) 0 0000-0000"

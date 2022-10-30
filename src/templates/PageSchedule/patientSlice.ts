@@ -19,6 +19,8 @@ interface State {
     address: string;
     doctor: string;
     rg: string;
+    appointmeintDate: string;
+    value: string;
   }[];
 }
 type Amount = {
@@ -32,6 +34,8 @@ type Amount = {
   address?: string;
   doctor?: string;
   rg?: string;
+  appointmeintDate?: string;
+  value?: string;
   navigate: NavigateFunction;
 };
 const initialState: State = {
@@ -49,6 +53,8 @@ const initialState: State = {
       address: '',
       doctor: '',
       rg: '',
+      appointmeintDate: '',
+      value: '',
     },
   ],
 };
@@ -75,6 +81,8 @@ export const asyncCreatePatient = createAsyncThunk(
       telephone,
       doctor,
       rg,
+      appointmeintDate,
+      value,
       navigate,
     } = amount;
     const response = await axios.post('patient', {
@@ -87,6 +95,8 @@ export const asyncCreatePatient = createAsyncThunk(
       doctor,
       rg,
       name,
+      appointmeintDate,
+      value,
     });
     return { ...response.data, navigate };
   },
@@ -105,6 +115,8 @@ export const asyncUpdatePatient = createAsyncThunk(
       telephone,
       doctor,
       rg,
+      appointmeintDate,
+      value,
       navigate,
     } = amount;
 
@@ -118,6 +130,8 @@ export const asyncUpdatePatient = createAsyncThunk(
       telephone,
       doctor,
       rg,
+      appointmeintDate,
+      value,
     });
     return { ...response.data, navigate };
   },

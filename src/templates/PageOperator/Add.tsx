@@ -96,7 +96,7 @@ export function OperatorAdd(): JSX.Element {
         </div>
       ) : null}
 
-      <Form>
+      <Form className="form-add">
         <Input
           type="text"
           value={user}

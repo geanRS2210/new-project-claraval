@@ -23,7 +23,7 @@ export function Input(props: Props): JSX.Element {
     className,
     disabled,
     name,
-    patern,
+    pattern,
     min,
     pattern,
   } = props;

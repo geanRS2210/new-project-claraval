@@ -29,6 +29,8 @@ export function Schedule(): JSX.Element {
       rg: '',
       appointmeintDate: '',
       value: '',
+      createdAt: '',
+      updatedAt: '',
     },
   ]);
   const [dataSearch, setdataSearch] = useState(data);

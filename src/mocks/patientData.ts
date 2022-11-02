@@ -12,6 +12,8 @@ export const database = [
     rg: '',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ export const database = [
     rg: '',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
   {
     id: 3,
@@ -40,6 +44,8 @@ export const database = [
     rg: '20840975',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
   {
     id: 4,
@@ -54,6 +60,8 @@ export const database = [
     rg: '20840975',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
   {
     id: 5,
@@ -68,6 +76,8 @@ export const database = [
     rg: '',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
   {
     id: 6,
@@ -82,5 +92,7 @@ export const database = [
     rg: '',
     appointmeintDate: '22/10/2022',
     value: '200,00',
+    createdAt: '',
+    updatedAt: '',
   },
 ];

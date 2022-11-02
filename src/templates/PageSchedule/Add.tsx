@@ -25,6 +25,9 @@ export function Patient(): JSX.Element {
   const [value, setvalue] = useState('');
   const [check, setCheck] = useState(false);
   const [checkInfo, setCheckInfo] = useState(false);
+  const [createdAt, setcreatedAt] = useState('');
+  const [updatedAt, setupdatedAt] = useState('');
+
   // const [data, setData] = useState([{}]);
   const loading = useAppSelector((state) => state.patient.loading);
   const [setFormat] = useFormat();
@@ -61,6 +64,8 @@ export function Patient(): JSX.Element {
           setAddress(d.address);
           setDoctor(d.doctor);
           setRg(d.rg);
+          setcreatedAt(d.createdAt);
+          setupdatedAt(d.updatedAt);
         }
         return null;
       });
@@ -128,6 +133,8 @@ export function Patient(): JSX.Element {
           rg,
           appointmeintDate,
           value,
+          createdAt,
+          updatedAt,
           navigate,
         }),
       );
@@ -150,6 +157,8 @@ export function Patient(): JSX.Element {
           rg,
           appointmeintDate,
           value,
+          createdAt,
+          updatedAt,
           navigate,
         }),
       );

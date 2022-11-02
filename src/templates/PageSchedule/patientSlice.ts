@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
-import { database } from '../../mocks/patientData';
 import { RootState } from '../../store';
 
 interface State {
@@ -21,6 +20,8 @@ interface State {
     rg: string;
     appointmeintDate: string;
     value: string;
+    createdAt: string;
+    updatedAt: string;
   }[];
 }
 type Amount = {
@@ -36,6 +37,8 @@ type Amount = {
   rg?: string;
   appointmeintDate?: string;
   value?: string;
+  createdAt?: string;
+  updatedAt?: string;
   navigate: NavigateFunction;
 };
 const initialState: State = {
@@ -55,6 +58,8 @@ const initialState: State = {
       rg: '',
       appointmeintDate: '',
       value: '',
+      createdAt: '',
+      updatedAt: '',
     },
   ],
 };
@@ -62,10 +67,14 @@ const initialState: State = {
 export const asyncSchedulePatient = createAsyncThunk(
   'patient/fetchSchedule',
   async () => {
-    const response = database;
-    return response;
-    // const response = axios.get('/patient');
-    // return response.data
+    // const response = database;
+    // return response;
+    const response = await axios.get('/patient', {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+      },
+    });
+    return response.data;
   },
 );
 export const asyncCreatePatient = createAsyncThunk(
@@ -85,19 +94,27 @@ export const asyncCreatePatient = createAsyncThunk(
       value,
       navigate,
     } = amount;
-    const response = await axios.post('patient', {
-      birthDate,
-      nameMom,
-      cpf,
-      address,
-      state,
-      telephone,
-      doctor,
-      rg,
-      name,
-      appointmeintDate,
-      value,
-    });
+    const response = await axios.post(
+      '/patient/',
+      {
+        birthDate,
+        nameMom,
+        cpf,
+        address,
+        state,
+        telephone,
+        doctor,
+        rg,
+        name,
+        appointmeintDate,
+        value,
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+      },
+    );
     return { ...response.data, navigate };
   },
 );

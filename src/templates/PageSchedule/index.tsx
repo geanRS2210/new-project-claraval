@@ -40,8 +40,12 @@ export function Schedule(): JSX.Element {
   const database = useAppSelector((state) => state.patient.data);
   const loading = useAppSelector((state) => state.patient.loading);
   const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(asyncSchedulePatient());
+  }, []);
+
+  useEffect(() => {
     setData(database);
     setdataSearch(database);
   }, [database]);

@@ -72,7 +72,7 @@ export const asyncUpdateSpecialty = createAsyncThunk(
   'specialty/fetchUpdateSpecialty',
   async (amount: Amount) => {
     const { id } = amount;
-    const response = await axios.put(`/specialty/${id}`, { ...amount });
+    const response = await axios.put(`/specialty/:${id}`, { ...amount });
     return response.data;
   },
 );
@@ -102,7 +102,7 @@ export const specialtySlice = createSlice({
       .addCase(asyncCreateSpecialty.fulfilled, (state, payload) => {
         const { id } = payload.payload;
         state.loading = false;
-        redirect(`/especialistas/add/${'edit'}/${id}`);
+        redirect(`/especialistas/add/:${'edit'}/:${id}`);
         toast.success('Médico Cadastrado com sucesso');
       })
       .addCase(asyncCreateSpecialty.rejected, (state) => {
@@ -117,7 +117,7 @@ export const specialtySlice = createSlice({
       .addCase(asyncUpdateSpecialty.fulfilled, (state, payload) => {
         state.loading = false;
         const { id, navigate } = payload.payload;
-        navigate(`/especialistas/add/${'info'}/${id}`);
+        navigate(`/especialistas/add/:${'info'}/:${id}`);
         toast.success('Médico editado com sucesso');
       })
       .addCase(asyncUpdateSpecialty.rejected, (state) => {

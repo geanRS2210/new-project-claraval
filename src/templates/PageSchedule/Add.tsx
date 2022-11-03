@@ -9,8 +9,8 @@ import { Input } from '../../components/Inputs/Input';
 import { Wrapper } from './styles';
 import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
-import { database } from '../../mocks/patientData';
 import { asyncCreatePatient, asyncUpdatePatient } from './patientSlice';
+import axios from '../../config/axios';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');
@@ -27,50 +27,69 @@ export function Patient(): JSX.Element {
   const [checkInfo, setCheckInfo] = useState(false);
   const [createdAt, setcreatedAt] = useState('');
   const [updatedAt, setupdatedAt] = useState('');
-
-  // const [data, setData] = useState([{}]);
+  const [userId, setId] = useState(1);
   const loading = useAppSelector((state) => state.patient.loading);
   const [setFormat] = useFormat();
   const { id, param } = useParams();
-  const [userID, setID] = useState(0);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // async function getData() {
-  // try {
-  //  const response = await axios.get(`/patient/${userID}`);
-  //  setData(response.data);
-  // } catch (e) {
-  //  toast.error('Ocorreu um erro inesperado, entre em contato com o suporte!!);
-  // };
-  // }
+  interface Data {
+    id: number;
+    name: string;
+    birthDate: string;
+    nameMom: string;
+    cpf: string;
+    state: string;
+    telephone: string;
+    address: string;
+    doctor: string;
+    rg: string;
+    appointmeintDate: string;
+    value: string;
+    created_at: string;
+    updated_at: string;
+  }
+
+  function setCamps(data: Data) {
+    setId(data.id);
+    setName(data.name);
+    setDateBirth(data.birthDate);
+    setNameMom(data.nameMom);
+    setCpf(data.cpf);
+    settelephone(data.telephone);
+    setAddress(data.address);
+    setDoctor(data.doctor);
+    setRg(data.rg);
+    setcreatedAt(data.created_at);
+    setupdatedAt(data.updated_at);
+  }
+
+  async function getData(ids: string) {
+    try {
+      const indent = Number(ids.slice(1));
+      const response = await axios.get(`/patient/${indent}`, {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+      });
+      setCamps(response.data);
+    } catch (e) {
+      toast.error(
+        'Ocorreu um erro inesperado entre em contato com o suporte!!',
+      );
+    }
+  }
 
   useEffect(() => {
     if (id && param) {
-      const indent = Number(id.slice(1));
-      setID(indent);
-      // getData();
       const parameter = param.slice(1);
       if (parameter === 'finish') setCheck(true);
       if (parameter === 'info') setCheckInfo(true);
-      // data.map((d) => {
-      database.map((d) => {
-        if (d.id === userID) {
-          setName(d.name);
-          setDateBirth(d.birthDate);
-          setNameMom(d.nameMom);
-          setCpf(d.cpf);
-          settelephone(d.telephone);
-          setAddress(d.address);
-          setDoctor(d.doctor);
-          setRg(d.rg);
-          setcreatedAt(d.createdAt);
-          setupdatedAt(d.updatedAt);
-        }
-        return null;
-      });
+      getData(id);
+      console.log(check, checkInfo);
     }
-  }, [userID, param]);
+  }, []);
 
   const checkErr = (): boolean => {
     let errors = false;
@@ -146,7 +165,7 @@ export function Patient(): JSX.Element {
     if (!errors) {
       dispatch(
         asyncUpdatePatient({
-          id: userID,
+          id: userId,
           name,
           birthDate,
           nameMom,
@@ -185,7 +204,6 @@ export function Patient(): JSX.Element {
           <h1>Carregando</h1>
         </div>
       ) : null}
-
       <Form className="form-add">
         <Input
           type="text"

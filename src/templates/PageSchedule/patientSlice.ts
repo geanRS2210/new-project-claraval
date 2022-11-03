@@ -178,7 +178,7 @@ export const patientSlice = createSlice({
       .addCase(asyncCreatePatient.fulfilled, (state, payload) => {
         const { id, navigate } = payload.payload;
         state.loading = false;
-        navigate(`/agendar/${'edit'}/${id}`);
+        navigate(`/agendar/:${'edit'}/:${id}`);
         toast.success('Paciente Cadastrado com sucesso');
       })
       .addCase(asyncCreatePatient.rejected, (state) => {
@@ -193,7 +193,7 @@ export const patientSlice = createSlice({
       .addCase(asyncUpdatePatient.fulfilled, (state, payload) => {
         const { id, navigate } = payload.payload;
         state.loading = false;
-        navigate(`/agendar/${'info'}/${id}`);
+        navigate(`/agendar/:${'info'}/:${id}`);
         toast.success('Paciente editado com succeso');
       })
       .addCase(asyncUpdatePatient.rejected, (state) => {

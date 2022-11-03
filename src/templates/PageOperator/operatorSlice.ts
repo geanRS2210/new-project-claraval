@@ -95,7 +95,7 @@ export const operatorSlice = createSlice({
       .addCase(asyncCreateOperator.fulfilled, (state, payload) => {
         const { navigate, id } = payload.payload;
         state.loading = false;
-        navigate(`/operadores/add/${'edit'}/${id}`);
+        navigate(`/operadores/add/:${'edit'}/:${id}`);
         toast.success('Operador criado com sucesso');
       })
       .addCase(asyncCreateOperator.rejected, (state) => {
@@ -110,7 +110,7 @@ export const operatorSlice = createSlice({
       .addCase(asyncUpdateOperator.fulfilled, (state, payload) => {
         const { navigate, id } = payload.payload;
         state.loading = false;
-        navigate(`/operadores/add/${'info'}/${id}`);
+        navigate(`/operadores/add/:${'info'}/:${id}`);
         toast.success('Operador editado com sucesso');
       })
       .addCase(asyncUpdateOperator.rejected, (state) => {

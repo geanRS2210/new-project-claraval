@@ -51,7 +51,14 @@ export function Patient(): JSX.Element {
     updated_at: string;
   }
 
-  function setCamps(data: Data) {
+  function setCamps(data: Data, params: string) {
+    const parameter = params.slice(1);
+    if (params.length === 0) {
+      setCheck(false);
+      setCheckInfo(false);
+    }
+    if (parameter === 'finish') setCheck(true);
+    if (parameter === 'info') setCheckInfo(true);
     setId(data.id);
     setName(data.name);
     setDateBirth(data.birthDate);
@@ -65,7 +72,7 @@ export function Patient(): JSX.Element {
     setupdatedAt(data.updated_at);
   }
 
-  async function getData(ids: string) {
+  async function getData(ids: string, params: string) {
     try {
       const indent = Number(ids.slice(1));
       const response = await axios.get(`/patient/${indent}`, {
@@ -73,7 +80,7 @@ export function Patient(): JSX.Element {
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
       });
-      setCamps(response.data);
+      setCamps(response.data, params);
     } catch (e) {
       toast.error(
         'Ocorreu um erro inesperado entre em contato com o suporte!!',
@@ -83,13 +90,29 @@ export function Patient(): JSX.Element {
 
   useEffect(() => {
     if (id && param) {
-      const parameter = param.slice(1);
-      if (parameter === 'finish') setCheck(true);
-      if (parameter === 'info') setCheckInfo(true);
-      getData(id);
-      console.log(check, checkInfo);
+      getData(id, param);
+    } else {
+      setCamps(
+        {
+          id: 0,
+          name: '',
+          birthDate: '',
+          nameMom: '',
+          cpf: '',
+          state: '',
+          telephone: '',
+          address: '',
+          doctor: '',
+          rg: '',
+          appointmeintDate: '',
+          value: '',
+          created_at: '',
+          updated_at: '',
+        },
+        '',
+      );
     }
-  }, []);
+  }, [id, param]);
 
   const checkErr = (): boolean => {
     let errors = false;
@@ -159,7 +182,10 @@ export function Patient(): JSX.Element {
       );
     }
   };
-  const handleEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEdit = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    state?: string,
+  ) => {
     e.preventDefault();
     const errors = checkErr();
     if (!errors) {
@@ -173,6 +199,7 @@ export function Patient(): JSX.Element {
           address,
           telephone,
           doctor,
+          state: state || 'awaiting',
           rg,
           appointmeintDate,
           value,
@@ -289,36 +316,35 @@ export function Patient(): JSX.Element {
         <Button type="reset" onClick={handleCancel} disabled={checkInfo}>
           Cancelar
         </Button>
-        {!check ? (
-          <>
-            <Button
-              type="submit"
-              disabled={checkInfo}
-              onClick={
-                param?.slice(1) === 'edit'
-                  ? (e) => handleEdit(e)
-                  : (e) => handleClick(e, 'awaiting')
-              }
-            >
-              Salvar
-            </Button>
-            <Button
-              type="submit"
-              disabled={checkInfo}
-              onClick={() => setCheck(true)}
-            >
-              Agendar
-            </Button>
-          </>
-        ) : (
+        {!check || param?.slice(1) === 'edit' ? (
           <Button
             type="submit"
             disabled={checkInfo}
-            onClick={(e) => handleClick(e, 'take')}
+            onClick={
+              param?.slice(1) === 'edit'
+                ? (e) => handleEdit(e)
+                : (e) => handleClick(e, 'awaiting')
+            }
           >
-            Agendar
+            Salvar
           </Button>
-        )}
+        ) : null}
+        <Button
+          type="submit"
+          disabled={checkInfo}
+          onClick={(e) => {
+            if (!check) {
+              e.preventDefault();
+              setCheck(true);
+            } else if (param?.slice(1) === 'edit') {
+              handleEdit(e, 'take');
+            } else {
+              handleClick(e, 'take');
+            }
+          }}
+        >
+          Agendar
+        </Button>
       </Form>
     </Wrapper>
   );

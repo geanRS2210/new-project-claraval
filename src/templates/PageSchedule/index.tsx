@@ -53,6 +53,9 @@ export function Schedule(): JSX.Element {
   const handleClickDelete = (e: number) => {
     dispatch(asyncUpdatePatient({ id: e, state: 'overdue', navigate }));
   };
+  const handleClickUpdate = (e: number) => {
+    dispatch(asyncUpdatePatient({ id: e, state: 'finished', navigate }));
+  };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;
     setSelect(event);
@@ -131,7 +134,12 @@ export function Schedule(): JSX.Element {
                       <FaUserCheck />
                     </Link>
                   ) : d.state === 'take' ? (
-                    <FaPrint onClick={() => jspdf(d)} />
+                    <FaPrint
+                      onClick={() => {
+                        handleClickUpdate(d.id);
+                        jspdf(d);
+                      }}
+                    />
                   ) : null}
                 </li>
                 <li>

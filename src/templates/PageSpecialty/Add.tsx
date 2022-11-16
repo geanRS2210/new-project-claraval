@@ -5,13 +5,12 @@ import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { Options } from '../../components/OptionsDoctor';
-import { useFormat } from '../../hooks/useFormat';
 import { Wrapper } from '../PageSchedule/styles';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncUpdateSpecialty, asyncCreateSpecialty } from './specialtySlice';
+import axios from '../../config/axios';
 
 export function SpecialtyAdd(): JSX.Element {
-  const [setFormat] = useFormat();
   const [doctor, setDoctor] = useState('');
   const [telephone, setTelephone] = useState('');
   const [whatsapp, setwhatsapp] = useState('');
@@ -23,46 +22,78 @@ export function SpecialtyAdd(): JSX.Element {
   const [checkInfo, setCheckInfo] = useState(false);
   const [checkEdit, setCheckEdit] = useState(false);
   const [userID, setUserID] = useState(0);
-  // const [data, setData] = useState([{}]);
   const dispatch = useAppDispatch();
   const { id, param } = useParams();
   const navigate = useNavigate();
-  const database = useAppSelector((state) => state.specialty.data);
   const loading = useAppSelector((state) => state.specialty.loading);
 
-  // async function getData() {
-  // try {
-  //  const response = await axios.get(`/operator/${userID}`);
-  //  setData(response.data);
-  // } catch (e) {
-  //  toast.error('Ocorreu um erro inesperado, entre em contato com o suporte!!);
-  // };
-  // }
+  interface Data {
+    id: number;
+    doctor: string;
+    address: string;
+    number: string;
+    telephone: string;
+    whatsapp: string;
+    specialty: string;
+    comments: string;
+    localPay: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  const setCamps = (d: Data, parameter: string) => {
+    if (parameter === 'edit') setCheckEdit(true);
+    if (parameter === 'info') setCheckInfo(true);
+    setUserID(d.id);
+    setDoctor(d.doctor);
+    setTelephone(d.telephone);
+    setwhatsapp(d.whatsapp);
+    setAddress(d.address);
+    setNumber(d.number);
+    setSpecialty(d.specialty);
+    setLocalPay(d.localPay);
+    setComments(d.comments);
+  };
+
+  async function getData(parameter: string) {
+    try {
+      const ident = Number(id);
+      const response = await axios.get(`/specialty/${ident}`, {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+      });
+      setCamps(response.data, parameter);
+    } catch (e) {
+      console.log(e);
+      toast.error(
+        'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+      );
+    }
+  }
 
   useEffect(() => {
     if (id && param) {
-      const ident = Number(id);
-      setUserID(ident);
-      // getData();
-      if (param === 'edit') setCheckEdit(true);
-      if (param === 'info') setCheckInfo(true);
-      // data.map((d) => {
-      database.map((d) => {
-        if (d.id === userID) {
-          console.log(d.doctor);
-          setDoctor(d.doctor);
-          setTelephone(d.telephone);
-          setwhatsapp(d.whatsapp);
-          setAddress(d.address);
-          setNumber(d.number);
-          setSpecialty(d.specialty);
-          setLocalPay(d.localPay);
-          setComments(d.comment);
-        }
-        return null;
-      });
+      getData(param);
+    } else {
+      setCamps(
+        {
+          id: 0,
+          doctor: '',
+          address: '',
+          number: '',
+          telephone: '',
+          whatsapp: '',
+          specialty: '',
+          comments: '',
+          localPay: '',
+          createdAt: '',
+          updatedAt: '',
+        },
+        '',
+      );
     }
-  }, [userID, param]);
+  }, [id, param]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -131,7 +162,10 @@ export function SpecialtyAdd(): JSX.Element {
     setwhatsapp('');
     setAddress('');
     setNumber('');
+    setSpecialty('');
+    setLocalPay('no');
     setComments('');
+    setUserID(0);
     navigate('/especialistas');
   };
 
@@ -144,6 +178,14 @@ export function SpecialtyAdd(): JSX.Element {
       ) : null}
 
       <Form className="form-add">
+        <h1>
+          {checkInfo
+            ? 'Informações'
+            : checkEdit
+            ? 'Página de edição'
+            : 'Cadastre um novo médico'}
+        </h1>
+
         <Input
           type="text"
           value={doctor}
@@ -155,14 +197,14 @@ export function SpecialtyAdd(): JSX.Element {
           type="tel"
           value={telephone}
           placeHolder="Digite o telefone ..."
-          onChange={(e) => setTelephone(setFormat('telephone', e))}
+          onChange={(e) => setTelephone(e.target.value)}
           disabled={checkInfo}
         />
         <Input
           type="text"
           value={whatsapp}
           placeHolder="Digite um whatsapp..."
-          onChange={(e) => setwhatsapp(setFormat('telephone', e))}
+          onChange={(e) => setwhatsapp(e.target.value)}
           disabled={checkInfo}
         />
         <Input
@@ -172,19 +214,19 @@ export function SpecialtyAdd(): JSX.Element {
           onChange={(e) => setAddress(e.target.value)}
           disabled={checkInfo}
         />
-        <Options
-          initial=""
-          value={specialty}
-          className="doctor"
-          onChange={(e) => setSpecialty(e.target.value)}
-          disabled={checkInfo}
-        />
         <Input
           type="number"
           className="number-local"
           value={number}
           min="0"
           onChange={(e) => setNumber(e.target.value)}
+          disabled={checkInfo}
+        />
+        <Options
+          initial=""
+          value={specialty}
+          className="doctor"
+          onChange={(e) => setSpecialty(e.target.value)}
           disabled={checkInfo}
         />
         <section>

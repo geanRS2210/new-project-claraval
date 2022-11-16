@@ -336,7 +336,10 @@ export function Patient(): JSX.Element {
             if (!check) {
               e.preventDefault();
               setCheck(true);
-            } else if (param?.slice(1) === 'edit') {
+            } else if (
+              param?.slice(1) === 'edit' ||
+              param?.slice(1) === 'finish'
+            ) {
               handleEdit(e, 'take');
             } else {
               handleClick(e, 'take');

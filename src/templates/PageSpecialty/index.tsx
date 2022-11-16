@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { Link } from 'react-router-dom';
 import { FaComment, FaEdit, FaInfo, FaTrashAlt } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import { Wrapper } from '../PageSchedule/styles';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncSpecialty } from './specialtySlice';
@@ -9,6 +10,7 @@ import { Options } from '../../components/OptionsDoctor';
 import { List } from '../../components/List/List';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Inputs/Input';
+import axios from '../../config/axios';
 
 export default function Specialty(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -25,23 +27,33 @@ export default function Specialty(): JSX.Element {
       telephone: '',
       whatsapp: '',
       specialty: '',
-      comment: '',
+      comments: '',
       localPay: '',
     },
   ]);
   const [dataSearch, setdataSearch] = useState(data);
   useEffect(() => {
     dispatch(asyncSpecialty());
+  }, []);
+  useEffect(() => {
     setData(database);
     setdataSearch(database);
-  }, [data]);
+  }, [database]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;
     setSelect(event);
   };
-  const handleDelete = () => {
-    console.log('disparo do update');
+  const handleDelete = async (id: number) => {
+    try {
+      await axios.delete(`/specialty/${id}`);
+      dispatch(asyncSpecialty());
+      toast.success('Médico excluído com sucesso!!');
+    } catch (e) {
+      toast.error(
+        'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+      );
+    }
   };
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -58,7 +70,6 @@ export default function Specialty(): JSX.Element {
       setdataSearch(data);
     }
   };
-
   return (
     <Wrapper>
       {loading ? (
@@ -103,11 +114,11 @@ export default function Specialty(): JSX.Element {
                 </li>
                 <li>
                   <FaTrashAlt
-                    onClick={handleDelete}
+                    onClick={() => handleDelete(d.id)}
                     className="delete-button"
                   />
                 </li>
-                {d.comment.length !== 0 ? (
+                {d.comments.length !== 0 ? (
                   <li>
                     <FaComment />
                   </li>
@@ -122,17 +133,26 @@ export default function Specialty(): JSX.Element {
                 <li>{d.telephone}</li>
                 <li>{d.specialty}</li>
                 <li>
-                  <FaInfo />
+                  <Link to={`/especialistas/add/${'info'}/${d.id}`}>
+                    <FaInfo />
+                  </Link>
                 </li>
                 <li>
-                  <FaEdit />
+                  <Link to={`/especialistas/add/${'edit'}/${d.id}`}>
+                    <FaEdit />
+                  </Link>
                 </li>
                 <li>
-                  <FaTrashAlt />
+                  <FaTrashAlt
+                    onClick={() => handleDelete(d.id)}
+                    className="delete-button"
+                  />
                 </li>
-                <li>
-                  <FaComment />
-                </li>
+                {d.comments.length !== 0 ? (
+                  <li className="comment">
+                    <FaComment />
+                  </li>
+                ) : null}
               </List>
             );
           }

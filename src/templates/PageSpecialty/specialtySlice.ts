@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { NavigateFunction, redirect } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
-import { database } from '../../mocks/specialtyData';
 
 interface InitialState {
   loading: boolean;
@@ -14,7 +13,7 @@ interface InitialState {
     telephone: string;
     whatsapp: string;
     specialty: string;
-    comment: string;
+    comments: string;
     localPay: string;
   }[];
 }
@@ -43,7 +42,7 @@ const initialState: InitialState = {
       telephone: '',
       whatsapp: '',
       specialty: '',
-      comment: '',
+      comments: '',
       localPay: '',
     },
   ],
@@ -52,31 +51,32 @@ const initialState: InitialState = {
 export const asyncSpecialty = createAsyncThunk(
   'specialty/fetchSpecialty',
   async () => {
-    const response = database;
-    return response;
-
-    //  const response = await axios.get('/specialty');
-    //  return response.data;
+    const response = await axios.get('/specialty', {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+      },
+    });
+    return response.data;
   },
 );
 
 export const asyncCreateSpecialty = createAsyncThunk(
   'specialty/fetchCreateSpecialty',
   async (amount: Amount) => {
-    const response = await axios.post('/specialty', { ...amount });
-    return response.data;
+    const { navigate, ...td } = amount;
+    const response = await axios.post('/specialty', { ...td });
+    return { ...response.data, navigate };
   },
 );
 
 export const asyncUpdateSpecialty = createAsyncThunk(
   'specialty/fetchUpdateSpecialty',
   async (amount: Amount) => {
-    const { id } = amount;
-    const response = await axios.put(`/specialty/:${id}`, { ...amount });
-    return response.data;
+    const { id, navigate, ...td } = amount;
+    const response = await axios.put(`/specialty/${id}`, { ...td });
+    return { ...response.data, navigate };
   },
 );
-
 export const specialtySlice = createSlice({
   name: 'specialty',
   initialState,
@@ -100,9 +100,9 @@ export const specialtySlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncCreateSpecialty.fulfilled, (state, payload) => {
-        const { id } = payload.payload;
+        const { navigate } = payload.payload;
         state.loading = false;
-        redirect(`/especialistas/add/:${'edit'}/:${id}`);
+        navigate(`/especialistas`);
         toast.success('Médico Cadastrado com sucesso');
       })
       .addCase(asyncCreateSpecialty.rejected, (state) => {
@@ -116,8 +116,8 @@ export const specialtySlice = createSlice({
       })
       .addCase(asyncUpdateSpecialty.fulfilled, (state, payload) => {
         state.loading = false;
-        const { id, navigate } = payload.payload;
-        navigate(`/especialistas/add/:${'info'}/:${id}`);
+        const { navigate } = payload.payload;
+        navigate(`/especialistas`);
         toast.success('Médico editado com sucesso');
       })
       .addCase(asyncUpdateSpecialty.rejected, (state) => {

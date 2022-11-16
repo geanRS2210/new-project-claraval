@@ -157,6 +157,11 @@ export const Wrapper = styled.div`
     width: 400px;
     margin: auto;
   }
+  h1 {
+    display: block;
+    margin: 20px;
+    padding: 15px;
+  }
   .form-auth {
     img {
       display: inline-block;

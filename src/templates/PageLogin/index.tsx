@@ -33,9 +33,9 @@ export default function Login(): JSX.Element {
       test = true;
       toast.error('Usuario inválido');
     }
-    if (password.length === 0 || password.length < 8) {
+    if (password.length === 0 || password.length < 4) {
       test = true;
-      toast.error('Sua senha deve conter entre 8 e 50 caracteres');
+      toast.error('Sua senha deve conter entre 4 e 25 caracteres');
     }
     return test;
   };

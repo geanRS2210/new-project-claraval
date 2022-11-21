@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { database } from '../mocks/specialtyData';
+import axios from './axios';
 
 interface Props {
   id: number;
@@ -13,20 +13,15 @@ interface Props {
   doctor: string;
   rg: string;
   appointmeintDate: string;
+  hour: string;
   value: string;
 }
 export const jspdf = async (props: Props) => {
-  // const response = await axios.get('/specialty/${id}')
-  // const testData = response.data
-
-  const data = database.filter((d) => {
-    if (props.doctor === d.doctor) {
-      return d;
-    }
-    return null;
-  });
-  const testData = data[0];
-
+  const { doctor } = props;
+  const id = doctor.match(/\d+/);
+  const doctorString = doctor.replace(`${id}`, '');
+  const response = await axios.get(`/specialty/${id}`);
+  const testData = response.data;
   // eslint-disable-next-line new-cap
   const doc = new jsPDF({
     unit: 'px',
@@ -59,9 +54,9 @@ export const jspdf = async (props: Props) => {
     180,
   );
   doc.setFontSize(10);
-  doc.text('Atendimento:', 30, 200);
+  doc.text(`Atendimento:  ${testData.specialty.toUpperCase()}`, 30, 200);
   doc.setFontSize(10);
-  doc.text(`Médico:  ${props.doctor.toUpperCase()}`, 30, 220);
+  doc.text(`Médico:  ${doctorString.toUpperCase()}`, 30, 220);
   doc.setFontSize(10);
   doc.text(
     'Autorizo a retirada de guia para atendimento, conforme CONVÊNIO PARTICULAR.',
@@ -80,15 +75,25 @@ export const jspdf = async (props: Props) => {
   doc.setFont('times', 'bold');
   doc.setFontSize(12);
   doc.text('CONSULTA MARCADA PARA:', 155, 35);
-  doc.text(`${props.appointmeintDate}`, 200, 55);
-  doc.text('PAGAR A GUIA NO CONVÊNIO EXTERNO DO HOSPITAL SÃO JOAQUIM', 70, 75);
+  doc.text(`${props.appointmeintDate}   às   ${props.hour}Hrs`, 172, 55);
+  if (testData.localPay === 'Sim') {
+    doc.text('PAGAR A GUIA NO CONSULTÓRIO', 70, 75);
+  } else {
+    doc.text(
+      'PAGAR A GUIA NO CONVÊNIO EXTERNO DO HOSPITAL SÃO JOAQUIM',
+      70,
+      75,
+    );
+  }
   doc.text(`Valor da Consulta: R$${props.value}`, 70, 105);
   doc.text(`Pagamento em dinheiro  (de preferência trocado!!)`, 70, 115);
-  doc.text(`Endereço do Hospital São Joaquim`, 70, 145);
-  doc.text(`R. Abílio Coutinho, 331 - São Joaquim, Franca - SP`, 70, 155);
-  doc.text(`Endereço do Consultório:`, 70, 185);
-  doc.text(`${testData.address}, ${testData.number}`, 70, 195);
-  doc.text(`${testData.telephone}`, 70, 205);
+  if (testData.localPay !== 'Sim') {
+    doc.text(`Endereço do Hospital São Joaquim`, 70, 195);
+    doc.text(`R. Abílio Coutinho, 331 - São Joaquim, Franca - SP`, 70, 205);
+  }
+  doc.text(`Endereço do Consultório:`, 70, 145);
+  doc.text(`${testData.address}, ${testData.number}`, 70, 155);
+  doc.text(`${testData.telephone}`, 70, 165);
   doc.text(
     `1 - Levar documentos(RG,CPF) !!PAGAR GUIA COM ANTECEDÊNCIA!!`,
     70,

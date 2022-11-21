@@ -19,10 +19,10 @@ interface Amount {
 
 const initialState: InitialState = {
   token: '',
-  loggedin: true,
+  loggedin: false,
   loading: false,
   user: '',
-  level: 'administrator',
+  level: '',
 };
 
 export const asyncAuth = createAsyncThunk(
@@ -52,13 +52,19 @@ const authReducer = createSlice({
       })
       .addCase(asyncAuth.fulfilled, (state, payload) => {
         const { navigate } = payload.payload;
-        state.loggedin = true;
-        state.user = payload.payload.user;
-        state.level = payload.payload.level;
-        axios.defaults.headers.authorization = payload.payload.token;
-        state.loading = false;
-        navigate('/agenda');
-        toast.success('Usuário logado com sucesso!!');
+        if (payload.payload.errors) {
+          state.loading = false;
+          toast.error(payload.payload.errors);
+        } else {
+          state.loggedin = true;
+          state.user = payload.payload.user;
+          state.level = payload.payload.level;
+          state.token = payload.payload.token;
+          axios.defaults.headers.authorization = payload.payload.token;
+          state.loading = false;
+          navigate('/agenda');
+          toast.success('Usuário logado com sucesso!!');
+        }
       })
       .addCase(asyncAuth.rejected, (state) => {
         state.loading = false;

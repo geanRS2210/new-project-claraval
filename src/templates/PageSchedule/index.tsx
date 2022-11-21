@@ -28,6 +28,7 @@ export function Schedule(): JSX.Element {
       doctor: '',
       rg: '',
       appointmeintDate: '',
+      hour: '',
       value: '',
       createdAt: '',
       updatedAt: '',
@@ -53,8 +54,9 @@ export function Schedule(): JSX.Element {
   const handleClickDelete = (e: number) => {
     dispatch(asyncUpdatePatient({ id: e, state: 'overdue', navigate }));
   };
-  const handleClickUpdate = (e: number) => {
-    dispatch(asyncUpdatePatient({ id: e, state: 'finished', navigate }));
+  const handleClickUpdate = async (e: number) => {
+    await dispatch(asyncUpdatePatient({ id: e, state: 'finished' }));
+    await dispatch(asyncSchedulePatient());
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;
@@ -133,12 +135,13 @@ export function Schedule(): JSX.Element {
                     <Link to={`/agendar/:${'finish'}/:${d.id}`}>
                       <FaUserCheck />
                     </Link>
-                  ) : d.state === 'take' ? (
+                  ) : d.state === 'take' || d.state === 'finished' ? (
                     <FaPrint
                       onClick={() => {
                         handleClickUpdate(d.id);
                         jspdf(d);
                       }}
+                      className="delete-button"
                     />
                   ) : null}
                 </li>

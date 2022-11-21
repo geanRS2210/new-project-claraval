@@ -9,6 +9,10 @@ html, body {
 margin: 0;
 padding: 0;
 height: 100%;
+font-family: sans-serif;
+}
+* {
+  font-family: sans-serif;
 }
 body .Toastify .Toastify__toast-container .Toastify__toast--error {
   background-color: red;
@@ -45,5 +49,27 @@ left: 0;
 .toastify {
   width: 300px;
   height: 40px;
+}
+.popover {
+  position: relative;
+}
+.comment-popover {
+  display: none;
+  position: absolute;
+  padding: 15px;
+  border-radius: 15px;
+  transition-duration: 0.8s;
+}
+.popover:hover {
+  & .comment-popover {
+    display: block;
+    min-height: 72px;
+    resize: none;
+    background-color: #4dff4ddd;
+    color: black;
+    box-shadow: 3px 3px 15px black;
+    top: -100px;
+    left: -185px;
+  }
 }
 `;

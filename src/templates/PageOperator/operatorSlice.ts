@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NavigateFunction } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../config/axios';
-import { database } from '../../mocks/operatorData';
 
 interface InitialState {
   loading: boolean;
@@ -10,8 +9,10 @@ interface InitialState {
     id: number;
     user: string;
     level: string;
-    password: string;
+    password_hash: string;
     state: string;
+    updated_at: string;
+    created_at: string;
   }[];
 }
 interface Amount {
@@ -26,11 +27,13 @@ const initialState: InitialState = {
   loading: false,
   data: [
     {
-      id: 50,
+      id: 0,
       user: '',
       level: '',
-      password: '',
+      password_hash: '',
       state: '',
+      updated_at: '',
+      created_at: '',
     },
   ],
 };
@@ -38,9 +41,8 @@ const initialState: InitialState = {
 export const asyncOperator = createAsyncThunk(
   'operator/fetchOperator',
   async () => {
-    const response = database;
-    // const response = await axios.get('/operator');
-    return response;
+    const response = await axios.get('/operator');
+    return response.data;
   },
 );
 export const asyncUpdateOperator = createAsyncThunk(
@@ -93,9 +95,9 @@ export const operatorSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncCreateOperator.fulfilled, (state, payload) => {
-        const { navigate, id } = payload.payload;
+        const { navigate } = payload.payload;
         state.loading = false;
-        navigate(`/operadores/add/:${'edit'}/:${id}`);
+        navigate(`/operadores/`);
         toast.success('Operador criado com sucesso');
       })
       .addCase(asyncCreateOperator.rejected, (state) => {
@@ -108,9 +110,9 @@ export const operatorSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncUpdateOperator.fulfilled, (state, payload) => {
-        const { navigate, id } = payload.payload;
+        const { navigate } = payload.payload;
         state.loading = false;
-        navigate(`/operadores/add/:${'info'}/:${id}`);
+        navigate(`/operadores/`);
         toast.success('Operador editado com sucesso');
       })
       .addCase(asyncUpdateOperator.rejected, (state) => {

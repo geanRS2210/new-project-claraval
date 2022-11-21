@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { DoctorStyled } from './styles';
-import { database } from '../../mocks/specialtyData';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { asyncSpecialty } from '../../templates/PageSpecialty/specialtySlice';
 
 interface Props {
   disabled?: boolean;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function Doctor(props: Props): JSX.Element {
+  const database = useAppSelector((state) => state.specialty.data);
+  const dispatch = useAppDispatch();
   const [data, setData] = useState([
     {
       id: 0,
@@ -22,13 +25,15 @@ export function Doctor(props: Props): JSX.Element {
       address: '',
       specialty: '',
       localPay: '',
-      comment: '',
+      comments: '',
     },
   ]);
-
+  useEffect(() => {
+    dispatch(asyncSpecialty());
+  }, []);
   useEffect(() => {
     setData(database);
-  }, [data]);
+  }, [database]);
 
   const { disabled, value, placeholder, onChange, classname } = props;
 
@@ -43,7 +48,7 @@ export function Doctor(props: Props): JSX.Element {
       <option value=""> </option>
       {data.map((d) => {
         return (
-          <option value={d.doctor} key={d.id}>
+          <option value={`${d.doctor}${d.id}`} key={d.id}>
             {d.doctor}
           </option>
         );

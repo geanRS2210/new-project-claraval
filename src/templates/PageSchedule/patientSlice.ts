@@ -19,6 +19,7 @@ interface State {
     doctor: string;
     rg: string;
     appointmeintDate: string;
+    hour: string;
     value: string;
     createdAt: string;
     updatedAt: string;
@@ -36,10 +37,11 @@ type Amount = {
   doctor?: string;
   rg?: string;
   appointmeintDate?: string;
+  hour?: string;
   value?: string;
   createdAt?: string;
   updatedAt?: string;
-  navigate: NavigateFunction;
+  navigate?: NavigateFunction;
 };
 const initialState: State = {
   token: '',
@@ -57,6 +59,7 @@ const initialState: State = {
       doctor: '',
       rg: '',
       appointmeintDate: '',
+      hour: '',
       value: '',
       createdAt: '',
       updatedAt: '',
@@ -91,6 +94,7 @@ export const asyncCreatePatient = createAsyncThunk(
       doctor,
       rg,
       appointmeintDate,
+      hour,
       value,
       navigate,
     } = amount;
@@ -107,6 +111,7 @@ export const asyncCreatePatient = createAsyncThunk(
         rg,
         name,
         appointmeintDate,
+        hour,
         value,
       },
       {
@@ -133,6 +138,7 @@ export const asyncUpdatePatient = createAsyncThunk(
       doctor,
       rg,
       appointmeintDate,
+      hour,
       value,
       navigate,
     } = amount;
@@ -148,6 +154,7 @@ export const asyncUpdatePatient = createAsyncThunk(
       doctor,
       rg,
       appointmeintDate,
+      hour,
       value,
     });
     return { ...response.data, navigate };
@@ -193,8 +200,8 @@ export const patientSlice = createSlice({
       .addCase(asyncUpdatePatient.fulfilled, (state, payload) => {
         const { id, navigate } = payload.payload;
         state.loading = false;
-        navigate(`/agendar/:${'info'}/:${id}`);
-        toast.success('Paciente editado com succeso');
+        if (navigate) navigate(`/agendar/:${'info'}/:${id}`);
+        if (navigate) toast.success('Paciente editado com succeso');
       })
       .addCase(asyncUpdatePatient.rejected, (state) => {
         state.loading = false;

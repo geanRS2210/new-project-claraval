@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { FaComment, FaEdit, FaInfo, FaTrashAlt } from 'react-icons/fa';
@@ -119,8 +119,9 @@ export default function Specialty(): JSX.Element {
                   />
                 </li>
                 {d.comments.length !== 0 ? (
-                  <li>
-                    <FaComment />
+                  <li className="popover">
+                    <FaComment className="delete-button" />
+                    <textarea value={d.comments} className="comment-popover" />
                   </li>
                 ) : null}
               </List>
@@ -149,8 +150,9 @@ export default function Specialty(): JSX.Element {
                   />
                 </li>
                 {d.comments.length !== 0 ? (
-                  <li className="comment">
-                    <FaComment />
+                  <li className="popover">
+                    <FaComment className="delete-button" />
+                    <textarea value={d.comments} className="comment-popover" />
                   </li>
                 ) : null}
               </List>

@@ -22,6 +22,7 @@ export function Patient(): JSX.Element {
   const [cpf, setCpf] = useState('');
   const [doctor, setDoctor] = useState('');
   const [appointmeintDate, setappointmeintDate] = useState('');
+  const [hour, setHour] = useState('');
   const [value, setvalue] = useState('');
   const [check, setCheck] = useState(false);
   const [checkInfo, setCheckInfo] = useState(false);
@@ -46,6 +47,7 @@ export function Patient(): JSX.Element {
     doctor: string;
     rg: string;
     appointmeintDate: string;
+    hour: string;
     value: string;
     created_at: string;
     updated_at: string;
@@ -105,6 +107,7 @@ export function Patient(): JSX.Element {
           doctor: '',
           rg: '',
           appointmeintDate: '',
+          hour,
           value: '',
           created_at: '',
           updated_at: '',
@@ -150,6 +153,11 @@ export function Patient(): JSX.Element {
         toast.error('A data do agendamento é obrigatório');
         errors = true;
       }
+      console.log(hour);
+      if (hour.length !== 5) {
+        toast.error('Horário de agendamento incorreto!!');
+        errors = true;
+      }
       if (value.length === 0) setvalue('200,00');
     }
     return errors;
@@ -174,6 +182,7 @@ export function Patient(): JSX.Element {
           doctor,
           rg,
           appointmeintDate,
+          hour,
           value,
           createdAt,
           updatedAt,
@@ -202,6 +211,7 @@ export function Patient(): JSX.Element {
           state: state || 'awaiting',
           rg,
           appointmeintDate,
+          hour,
           value,
           createdAt,
           updatedAt,
@@ -232,6 +242,13 @@ export function Patient(): JSX.Element {
         </div>
       ) : null}
       <Form className="form-add">
+        <h1>
+          {checkInfo
+            ? 'Informações'
+            : check
+            ? 'Página de edição'
+            : 'Cadastre um novo Paciente'}
+        </h1>
         <Input
           type="text"
           value={name}
@@ -289,7 +306,10 @@ export function Patient(): JSX.Element {
         />
         <Doctor
           value={doctor}
-          onChange={(e) => setDoctor(e.target.value)}
+          onChange={(e) => {
+            console.log(e.target.value);
+            setDoctor(e.target.value);
+          }}
           disabled={checkInfo}
           classname="doctor"
         />
@@ -304,6 +324,17 @@ export function Patient(): JSX.Element {
             }}
             disabled={checkInfo}
           />
+          <Input
+            type="text"
+            value={hour}
+            placeHolder="Horário..."
+            className="date"
+            onChange={(e) => {
+              setHour(e.target.value);
+            }}
+            disabled={checkInfo}
+          />
+
           <Input
             type="text"
             value={value}

@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
       margin: 10px;
     }
     .date {
-      width: 200px;
+      width: 160px;
       display: inline-block;
     }
     .telephone {

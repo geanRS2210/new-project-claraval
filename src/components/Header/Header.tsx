@@ -10,6 +10,7 @@ export function Header(): JSX.Element {
   const dispatch = useAppDispatch();
   const level = useAppSelector((state) => state.auth.level);
   const auth = useAppSelector((state) => state.auth.loggedin);
+  console.log(level);
 
   return (
     <HeaderStyled>

@@ -13,9 +13,11 @@ export default function Operator(): JSX.Element {
     {
       id: 0,
       user: '',
-      password: '',
+      password_hash: '',
       level: '',
       state: '',
+      created_at: '',
+      updated_at: '',
     },
   ]);
   const [select, setSelect] = useState('valid');
@@ -25,11 +27,15 @@ export default function Operator(): JSX.Element {
   const database = useAppSelector((state) => state.operator.data);
   const loading = useAppSelector((state) => state.operator.loading);
   const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(asyncOperator());
+  }, []);
+
+  useEffect(() => {
     setData(database);
     setdataSearch(database);
-  }, [data]);
+  }, [database]);
 
   const handleClickDelete = (e: number) => {
     dispatch(asyncUpdateOperator({ id: e, state: 'invalid', navigate }));

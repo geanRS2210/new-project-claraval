@@ -33,6 +33,15 @@ export const asyncAuth = createAsyncThunk(
     return { ...response.data, navigate };
   },
 );
+export const asyncAuthStorage = createAsyncThunk(
+  'auth/fetcAuthStorage',
+  async () => {
+    const log = localStorage.getItem('logged');
+    const token = localStorage.getItem('authorization');
+    const level = localStorage.getItem('level');
+    return { log, token, level };
+  },
+);
 
 const authReducer = createSlice({
   name: 'auth',
@@ -43,6 +52,9 @@ const authReducer = createSlice({
       state.loggedin = false;
       state.user = '';
       state.level = '';
+      localStorage.removeItem('authorization');
+      localStorage.removeItem('level');
+      localStorage.removeItem('logged');
     },
   },
   extraReducers(builder) {
@@ -60,7 +72,13 @@ const authReducer = createSlice({
           state.user = payload.payload.user;
           state.level = payload.payload.level;
           state.token = payload.payload.token;
-          axios.defaults.headers.authorization = payload.payload.token;
+          localStorage.setItem(
+            'authorization',
+            `bearer ${payload.payload.token}`,
+          );
+          localStorage.setItem('level', `${payload.payload.level}`);
+          localStorage.setItem('logged', `true`);
+
           state.loading = false;
           navigate('/agenda');
           toast.success('Usuário logado com sucesso!!');
@@ -69,6 +87,21 @@ const authReducer = createSlice({
       .addCase(asyncAuth.rejected, (state) => {
         state.loading = false;
         toast.error('Usuário ou senha incorreta');
+      })
+      .addCase(asyncAuthStorage.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(asyncAuthStorage.fulfilled, (state, payload) => {
+        if (payload.payload.log === 'true') {
+          state.loggedin = true;
+          state.level = payload.payload.level || '';
+          state.token = payload.payload.token || '';
+          state.loading = false;
+        }
+        state.loading = false;
+      })
+      .addCase(asyncAuthStorage.rejected, (state) => {
+        state.loading = false;
       });
   },
 });

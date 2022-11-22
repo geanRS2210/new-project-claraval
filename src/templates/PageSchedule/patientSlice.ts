@@ -70,10 +70,10 @@ const initialState: State = {
 export const asyncSchedulePatient = createAsyncThunk(
   'patient/fetchSchedule',
   async () => {
-    // const response = database;
-    // return response;
+    const token = localStorage.getItem('authorization');
     const response = await axios.get('/patient', {
       headers: {
+        authorization: `${token}`,
         'Access-Control-Allow-Origin': 'http://localhost:3000',
       },
     });
@@ -83,6 +83,7 @@ export const asyncSchedulePatient = createAsyncThunk(
 export const asyncCreatePatient = createAsyncThunk(
   'patient/fetchCreatePatient',
   async (amount: Amount) => {
+    const token = localStorage.getItem('authorization');
     const {
       name,
       birthDate,
@@ -117,6 +118,7 @@ export const asyncCreatePatient = createAsyncThunk(
       {
         headers: {
           'Access-Control-Allow-Origin': 'http://localhost:3000',
+          authorization: `${token}`,
         },
       },
     );
@@ -126,6 +128,7 @@ export const asyncCreatePatient = createAsyncThunk(
 export const asyncUpdatePatient = createAsyncThunk(
   'patient/fetchUpdatePatient',
   async (amount: Amount) => {
+    const token = localStorage.getItem('authorization');
     const {
       id,
       name,
@@ -143,20 +146,28 @@ export const asyncUpdatePatient = createAsyncThunk(
       navigate,
     } = amount;
 
-    const response = await axios.put(`/patient/${id}`, {
-      name,
-      birthDate,
-      nameMom,
-      cpf,
-      address,
-      state,
-      telephone,
-      doctor,
-      rg,
-      appointmeintDate,
-      hour,
-      value,
-    });
+    const response = await axios.put(
+      `/patient/${id}`,
+      {
+        name,
+        birthDate,
+        nameMom,
+        cpf,
+        address,
+        state,
+        telephone,
+        doctor,
+        rg,
+        appointmeintDate,
+        hour,
+        value,
+      },
+      {
+        headers: {
+          authorization: `${token}`,
+        },
+      },
+    );
     return { ...response.data, navigate };
   },
 );

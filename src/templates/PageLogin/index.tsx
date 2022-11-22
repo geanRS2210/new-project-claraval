@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { Form } from '../../components/Form/Form';
 import { Input } from '../../components/Inputs/Input';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { asyncAuth, selectValue } from './authSlice';
+import { asyncAuth, asyncAuthStorage, selectValue } from './authSlice';
 import { Wrapper } from '../PageSchedule/styles';
 
 export default function Login(): JSX.Element {
@@ -14,6 +14,10 @@ export default function Login(): JSX.Element {
   const { loading } = useAppSelector(selectValue);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(asyncAuthStorage());
+  }, []);
 
   const handleChangePassword = (
     e: React.ChangeEvent<HTMLInputElement>,

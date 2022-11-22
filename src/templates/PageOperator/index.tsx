@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { Button } from '../../components/Button/Button';
 import { asyncOperator, asyncUpdateOperator } from './operatorSlice';
 import { Input } from '../../components/Inputs/Input';
+import { authReverse } from '../PageLogin/authSlice';
 
 export default function Operator(): JSX.Element {
   const [data, setData] = useState([
@@ -26,6 +27,7 @@ export default function Operator(): JSX.Element {
   const dispatch = useAppDispatch();
   const database = useAppSelector((state) => state.operator.data);
   const loading = useAppSelector((state) => state.operator.loading);
+  const desloged = useAppSelector((state) => state.operator.deslog);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,10 @@ export default function Operator(): JSX.Element {
     setData(database);
     setdataSearch(database);
   }, [database]);
+
+  useEffect(() => {
+    if (desloged) dispatch(authReverse());
+  }, [desloged]);
 
   const handleClickDelete = (e: number) => {
     dispatch(asyncUpdateOperator({ id: e, state: 'invalid', navigate }));

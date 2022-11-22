@@ -8,6 +8,7 @@ import { Wrapper } from '../PageSchedule/styles';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncCreateOperator, asyncUpdateOperator } from './operatorSlice';
 import axios from '../../config/axios';
+import { authReverse } from '../PageLogin/authSlice';
 
 export function OperatorAdd(): JSX.Element {
   const [user, setUser] = useState('');
@@ -18,6 +19,7 @@ export function OperatorAdd(): JSX.Element {
   const [infoCheck, setCheckInfo] = useState(false);
   const [userID, setUserId] = useState(0);
   const loading = useAppSelector((state) => state.operator.loading);
+  const desloged = useAppSelector((state) => state.operator.deslog);
   const { id, param } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -43,13 +45,24 @@ export function OperatorAdd(): JSX.Element {
 
   async function getData() {
     try {
+      const token = localStorage.getItem('authorization');
       const ident = Number(id?.slice(1));
-      const response = await axios.get(`/operator/${ident}`);
+      const response = await axios.get(`/operator/${ident}`, {
+        headers: {
+          authorization: `${token}`,
+        },
+      });
       setCamps(response.data, ident);
     } catch (e) {
-      toast.error(
-        'Ocorreu um erro inesperado, entre em contato com o suporte!!',
-      );
+      const result = (e as Error).message;
+      if (result === 'Request failed with status code 401') {
+        toast.error('Faça login noavmente, tempo de sessão esgotado!!');
+        dispatch(authReverse());
+      } else {
+        toast.error(
+          'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+        );
+      }
     }
   }
 
@@ -58,6 +71,9 @@ export function OperatorAdd(): JSX.Element {
       getData();
     }
   }, [userID, param]);
+  useEffect(() => {
+    if (desloged) dispatch(authReverse());
+  }, [desloged]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -78,10 +94,22 @@ export function OperatorAdd(): JSX.Element {
     }
     if (!error) {
       if (check) {
-        const dataAsync = { user, id: userID, level, password, navigate };
+        const dataAsync = {
+          user,
+          id: userID,
+          level,
+          password,
+          navigate,
+        };
         dispatch(asyncUpdateOperator(dataAsync));
       } else {
-        const dataAsync = { user, state: 'valid', level, password, navigate };
+        const dataAsync = {
+          user,
+          state: 'valid',
+          level,
+          password,
+          navigate,
+        };
         dispatch(asyncCreateOperator(dataAsync));
       }
     }

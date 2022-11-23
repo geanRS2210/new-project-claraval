@@ -20,6 +20,7 @@ export function OperatorAdd(): JSX.Element {
   const [userID, setUserId] = useState(0);
   const loading = useAppSelector((state) => state.operator.loading);
   const desloged = useAppSelector((state) => state.operator.deslog);
+  const priorityLevel = useAppSelector((state) => state.auth.level);
   const { id, param } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -65,8 +66,10 @@ export function OperatorAdd(): JSX.Element {
       }
     }
   }
-
   useEffect(() => {
+    if (priorityLevel !== 'administrator') {
+      navigate('/');
+    }
     if (id && param) {
       getData();
     }

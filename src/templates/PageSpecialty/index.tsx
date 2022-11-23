@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaComment, FaEdit, FaInfo, FaTrashAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { Wrapper } from '../PageSchedule/styles';
@@ -11,11 +11,15 @@ import { List } from '../../components/List/List';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Inputs/Input';
 import axios from '../../config/axios';
+import { authReverse } from '../PageLogin/authSlice';
 
 export default function Specialty(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const database = useAppSelector((state) => state.specialty.data);
   const loading = useAppSelector((state) => state.specialty.loading);
+  const deslog = useAppSelector((state) => state.specialty.deslog);
+  const levelPriority = useAppSelector((state) => state.auth.level);
   const [select, setSelect] = useState('Todos');
   const [search, setSearch] = useState('');
   const [data, setData] = useState([
@@ -35,10 +39,18 @@ export default function Specialty(): JSX.Element {
   useEffect(() => {
     dispatch(asyncSpecialty());
   }, []);
+
   useEffect(() => {
     setData(database);
     setdataSearch(database);
   }, [database]);
+
+  useEffect(() => {
+    if (levelPriority !== 'administrator') {
+      navigate('/');
+    }
+    if (deslog) dispatch(authReverse());
+  }, [deslog]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const event = e.target.value;

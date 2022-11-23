@@ -159,10 +159,13 @@ export const Wrapper = styled.div`
   }
   h1 {
     display: block;
-    margin: 20px;
+    margin: 17px;
     padding: 15px;
   }
   .form-auth {
+    border-radius: 15px;
+    animation: 2s cubic-bezier(0, 0, 0, 0) infinite alternate-reverse forwards
+      login;
     img {
       display: inline-block;
       margin-right: 15px;
@@ -205,6 +208,119 @@ export const Wrapper = styled.div`
       animation-duration: 1.3s;
       animation-name: carregando;
       animation-iteration-count: infinite;
+    }
+    @keyframes login {
+      from {
+        box-shadow: 1px 1px 41px gray;
+      }
+      2.5% {
+        box-shadow: 1px 1px 40px gray;
+      }
+      5% {
+        box-shadow: 1px 1px 39px gray;
+      }
+      7.5% {
+        box-shadow: 1px 1px 38px gray;
+      }
+      10% {
+        box-shadow: 1px 1px 37px gray;
+      }
+      12.5% {
+        box-shadow: 1px 1px 36px gray;
+      }
+      15% {
+        box-shadow: 1px 1px 35px gray;
+      }
+      17.5% {
+        box-shadow: 1px 1px 34px gray;
+      }
+      20% {
+        box-shadow: 1px 1px 33px gray;
+      }
+      22.5% {
+        box-shadow: 1px 1px 32px gray;
+      }
+      25% {
+        box-shadow: 1px 1px 31px gray;
+      }
+      27.5% {
+        box-shadow: 1px 1px 30px gray;
+      }
+      30% {
+        box-shadow: 1px 1px 29px gray;
+      }
+      32.5% {
+        box-shadow: 1px 1px 28px gray;
+      }
+      35% {
+        box-shadow: 1px 1px 27px gray;
+      }
+      37.5% {
+        box-shadow: 1px 1px 26px gray;
+      }
+      40% {
+        box-shadow: 1px 1px 25px gray;
+      }
+      42.5% {
+        box-shadow: 1px 1px 24px gray;
+      }
+      45% {
+        box-shadow: 1px 1px 23px gray;
+      }
+      47.5% {
+        box-shadow: 1px 1px 22px gray;
+      }
+      50% {
+        box-shadow: 1px 1px 21px gray;
+      }
+      52.5% {
+        box-shadow: 1px 1px 20px gray;
+      }
+      55% {
+        box-shadow: 1px 1px 19px gray;
+      }
+      57.5% {
+        box-shadow: 1px 1px 18px gray;
+      }
+      60% {
+        box-shadow: 1px 1px 17px gray;
+      }
+      62.5% {
+        box-shadow: 1px 1px 16px gray;
+      }
+      65% {
+        box-shadow: 1px 1px 15px gray;
+      }
+      67.5% {
+        box-shadow: 1px 1px 14px gray;
+      }
+      70% {
+        box-shadow: 1px 1px 13px gray;
+      }
+      72.5% {
+        box-shadow: 1px 1px 12px gray;
+      }
+      75% {
+        box-shadow: 1px 1px 11px gray;
+      }
+      77.5% {
+        box-shadow: 1px 1px 10px gray;
+      }
+      80% {
+        box-shadow: 1px 1px 09px gray;
+      }
+      82.5% {
+        box-shadow: 1px 1px 08px gray;
+      }
+      85% {
+        box-shadow: 1px 1px 07px gray;
+      }
+      87.5% {
+        box-shadow: 1px 1px 06px gray;
+      }
+      to {
+        box-shadow: 1px 1px 05px gray;
+      }
     }
     @keyframes carregando {
       from {

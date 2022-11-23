@@ -11,6 +11,7 @@ import { Check } from '../../components/Check/Check';
 import { Doctor } from '../../components/SelectDoctor/Doctor';
 import { asyncCreatePatient, asyncUpdatePatient } from './patientSlice';
 import axios from '../../config/axios';
+import { authReverse } from '../PageLogin/authSlice';
 
 export function Patient(): JSX.Element {
   const [name, setName] = useState('');
@@ -76,17 +77,25 @@ export function Patient(): JSX.Element {
 
   async function getData(ids: string, params: string) {
     try {
+      const token = localStorage.getItem('authorization');
       const indent = Number(ids.slice(1));
       const response = await axios.get(`/patient/${indent}`, {
         headers: {
+          authorization: `${token}`,
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
       });
       setCamps(response.data, params);
     } catch (e) {
-      toast.error(
-        'Ocorreu um erro inesperado entre em contato com o suporte!!',
-      );
+      const err = (e as Error).message;
+      if (err === 'Request failed with status code 401') {
+        dispatch(authReverse());
+        toast.error('Faça login novamente, Tempo de sessão esgotado!!');
+      } else {
+        toast.error(
+          'Ocorreu um erro inesperado entre em contato com o suporte!!',
+        );
+      }
     }
   }
 

@@ -115,7 +115,7 @@ export const operatorSlice = createSlice({
         if (payload.error.message === 'Request failed with status code 401') {
           state.deslog = true;
           state.loading = false;
-          toast.error('Faça login noavmente, tempo de sessão esgotado!!');
+          toast.error('Faça login novamente, tempo de sessão esgotado!!');
         } else {
           toast.error(
             'Ocorreu um erro inesperado entre em contato com o suporte!!',

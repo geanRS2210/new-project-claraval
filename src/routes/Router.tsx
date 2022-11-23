@@ -17,7 +17,7 @@ export function RoutesApp(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route path="/" element={auth ? <App /> : <Login />}>
           <Route path="login" element={<Login />} />
           <Route path="agenda" element={auth ? <Schedule /> : <Login />} />
           <Route path="agendar/" element={auth ? <Patient /> : <Login />}>

@@ -28,6 +28,7 @@ export default function Operator(): JSX.Element {
   const database = useAppSelector((state) => state.operator.data);
   const loading = useAppSelector((state) => state.operator.loading);
   const desloged = useAppSelector((state) => state.operator.deslog);
+  const priorityLevel = useAppSelector((state) => state.auth.level);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +41,9 @@ export default function Operator(): JSX.Element {
   }, [database]);
 
   useEffect(() => {
+    if (priorityLevel !== 'administrator') {
+      navigate('/');
+    }
     if (desloged) dispatch(authReverse());
   }, [desloged]);
 

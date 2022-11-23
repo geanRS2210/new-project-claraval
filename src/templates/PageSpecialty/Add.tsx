@@ -9,6 +9,7 @@ import { Wrapper } from '../PageSchedule/styles';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncUpdateSpecialty, asyncCreateSpecialty } from './specialtySlice';
 import axios from '../../config/axios';
+import { authReverse } from '../PageLogin/authSlice';
 
 export function SpecialtyAdd(): JSX.Element {
   const [doctor, setDoctor] = useState('');
@@ -26,6 +27,7 @@ export function SpecialtyAdd(): JSX.Element {
   const { id, param } = useParams();
   const navigate = useNavigate();
   const loading = useAppSelector((state) => state.specialty.loading);
+  const levelPriority = useAppSelector((state) => state.auth.level);
 
   interface Data {
     id: number;
@@ -57,22 +59,32 @@ export function SpecialtyAdd(): JSX.Element {
 
   async function getData(parameter: string) {
     try {
+      const token = localStorage.getItem('authorization');
       const ident = Number(id);
       const response = await axios.get(`/specialty/${ident}`, {
         headers: {
+          authorization: `${token}`,
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
       });
       setCamps(response.data, parameter);
     } catch (e) {
-      console.log(e);
-      toast.error(
-        'Ocorreu um erro inesperado, entre em contato com o suporte!!',
-      );
+      const err = (e as Error).message;
+      if (err === 'Request failed with status code 401') {
+        dispatch(authReverse());
+        toast.error('Faça login novamente, Tempo de sessão esgotado!!');
+      } else {
+        toast.error(
+          'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+        );
+      }
     }
   }
 
   useEffect(() => {
+    if (levelPriority !== 'administrator') {
+      navigate('/');
+    }
     if (id && param) {
       getData(param);
     } else {

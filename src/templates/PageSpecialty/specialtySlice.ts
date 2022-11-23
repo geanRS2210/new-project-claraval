@@ -5,6 +5,7 @@ import axios from '../../config/axios';
 
 interface InitialState {
   loading: boolean;
+  deslog: boolean;
   data: {
     id: number;
     doctor: string;
@@ -33,6 +34,7 @@ type Amount = {
 
 const initialState: InitialState = {
   loading: false,
+  deslog: false,
   data: [
     {
       id: 0,
@@ -51,8 +53,10 @@ const initialState: InitialState = {
 export const asyncSpecialty = createAsyncThunk(
   'specialty/fetchSpecialty',
   async () => {
+    const token = localStorage.getItem('authorization');
     const response = await axios.get('/specialty', {
       headers: {
+        authorization: `${token}`,
         'Access-Control-Allow-Origin': 'http://localhost:3000',
       },
     });
@@ -63,8 +67,18 @@ export const asyncSpecialty = createAsyncThunk(
 export const asyncCreateSpecialty = createAsyncThunk(
   'specialty/fetchCreateSpecialty',
   async (amount: Amount) => {
+    const token = localStorage.getItem('authorization');
     const { navigate, ...td } = amount;
-    const response = await axios.post('/specialty', { ...td });
+    const response = await axios.post(
+      '/specialty',
+      { ...td },
+      {
+        headers: {
+          authorization: `${token}`,
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+      },
+    );
     return { ...response.data, navigate };
   },
 );
@@ -72,8 +86,17 @@ export const asyncCreateSpecialty = createAsyncThunk(
 export const asyncUpdateSpecialty = createAsyncThunk(
   'specialty/fetchUpdateSpecialty',
   async (amount: Amount) => {
+    const token = localStorage.getItem('authorization');
     const { id, navigate, ...td } = amount;
-    const response = await axios.put(`/specialty/${id}`, { ...td });
+    const response = await axios.put(
+      `/specialty/${id}`,
+      { ...td },
+      {
+        headers: {
+          authorization: `${token}`,
+        },
+      },
+    );
     return { ...response.data, navigate };
   },
 );
@@ -90,11 +113,17 @@ export const specialtySlice = createSlice({
         state.data = payload.payload;
         state.loading = false;
       })
-      .addCase(asyncSpecialty.rejected, (state) => {
-        state.loading = false;
-        toast.error(
-          'Ocorreu um erro inesperado, entre em contato com o suporte!!',
-        );
+      .addCase(asyncSpecialty.rejected, (state, payload) => {
+        if (payload.error.message === 'Request failed with status code 401') {
+          state.deslog = true;
+          state.loading = false;
+          toast.error('Faça login novamente, Tempo de sessão esgotado!!');
+        } else {
+          state.loading = false;
+          toast.error(
+            'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+          );
+        }
       })
       .addCase(asyncCreateSpecialty.pending, (state) => {
         state.loading = true;
@@ -105,11 +134,17 @@ export const specialtySlice = createSlice({
         navigate(`/especialistas`);
         toast.success('Médico Cadastrado com sucesso');
       })
-      .addCase(asyncCreateSpecialty.rejected, (state) => {
-        state.loading = false;
-        toast.error(
-          'Ocorreu um erro inesperado, entre em contato com o suporte!!',
-        );
+      .addCase(asyncCreateSpecialty.rejected, (state, payload) => {
+        if (payload.error.message === 'Request failed with status code 401') {
+          state.deslog = true;
+          state.loading = false;
+          toast.error('Faça login novamente, Tempo de sessão esgotado!!');
+        } else {
+          state.loading = false;
+          toast.error(
+            'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+          );
+        }
       })
       .addCase(asyncUpdateSpecialty.pending, (state) => {
         state.loading = true;
@@ -120,11 +155,17 @@ export const specialtySlice = createSlice({
         navigate(`/especialistas`);
         toast.success('Médico editado com sucesso');
       })
-      .addCase(asyncUpdateSpecialty.rejected, (state) => {
-        state.loading = false;
-        toast.error(
-          'Ocorreu um erro inesperado, entre em contato com o suporte!!',
-        );
+      .addCase(asyncUpdateSpecialty.rejected, (state, payload) => {
+        if (payload.error.message === 'Request failed with status code 401') {
+          state.loading = false;
+          state.deslog = true;
+          toast.error('Faça login novamente, Tempo de sessão esgotado!!');
+        } else {
+          state.loading = false;
+          toast.error(
+            'Ocorreu um erro inesperado, entre em contato com o suporte!!',
+          );
+        }
       });
   },
 });

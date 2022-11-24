@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { asyncUpdateSpecialty, asyncCreateSpecialty } from './specialtySlice';
 import axios from '../../config/axios';
 import { authReverse } from '../PageLogin/authSlice';
+import { useFormat } from '../../hooks/useFormat';
 
 export function SpecialtyAdd(): JSX.Element {
   const [doctor, setDoctor] = useState('');
@@ -24,6 +25,7 @@ export function SpecialtyAdd(): JSX.Element {
   const [checkEdit, setCheckEdit] = useState(false);
   const [userID, setUserID] = useState(0);
   const dispatch = useAppDispatch();
+  const [setFormat] = useFormat();
   const { id, param } = useParams();
   const navigate = useNavigate();
   const loading = useAppSelector((state) => state.specialty.loading);
@@ -209,14 +211,14 @@ export function SpecialtyAdd(): JSX.Element {
           type="tel"
           value={telephone}
           placeHolder="Digite o telefone ..."
-          onChange={(e) => setTelephone(e.target.value)}
+          onChange={(e) => setTelephone(setFormat('fixTel', e))}
           disabled={checkInfo}
         />
         <Input
           type="text"
           value={whatsapp}
           placeHolder="Digite um whatsapp..."
-          onChange={(e) => setwhatsapp(e.target.value)}
+          onChange={(e) => setwhatsapp(setFormat('telephone', e))}
           disabled={checkInfo}
         />
         <Input
